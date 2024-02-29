@@ -28,7 +28,6 @@ jobs:
       run: |
         python3 -m pip install types-tqdm
         python -m pip install --upgrade pip
-        cd fneval
         pip install -r requirements.txt
         pip install mypy flake8
     - name: Check types
