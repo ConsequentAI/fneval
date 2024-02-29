@@ -11,7 +11,7 @@ from eval.runner import mk_dir_safe
 
 from evaluate import DEFAULT_EVAL_PICKLE_FILE
 
-COVERAGE_PC_TOO_LOW_IF_BELOW = 50
+COVERAGE_PC_TOO_LOW_IF_BELOW = 70
 PC = lambda num, dim: 100.0 * (num / float(dim) if dim else 0.0)
 
 

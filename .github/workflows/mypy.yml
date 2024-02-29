@@ -1,0 +1,36 @@
+name: Typecheck fneval
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "**"
+      - ".github/workflows/mypy.yml"
+  pull_request:
+    paths:
+      - "**"
+      - ".github/workflows/mypy.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        python-version: [3.9]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python3 -m pip install types-tqdm
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install mypy flake8
+    - name: Check types
+      run: |
+        # flake8 . --ignore E501,W503,W504,W505,E266
+        mypy --check-untyped-defs --pretty .
