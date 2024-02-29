@@ -98,8 +98,9 @@ test should consist of posing a question whose answer can be {\em derived} under
 assumption of axioms for that domain. Reasoning systems (or humans) should be
 able to conclude the answer despite not having seen the question before. An
 ideal system would provide not only the answer but also each step of the
-derivation. Additionally, it should be capable of indicating which formal rule
-was used and which prior conclusions contributed to deriving each step.
+derivation.
+% Additionally, it should be capable of indicating which formal rule
+% was used and which prior conclusions contributed to deriving each step.
 Explicit elucidation of steps is ideal, but not critical. State-of-the-art
 language models exhibit {\em some} reasoning capabilities, but accurate evaluation is
 lagging. In particular, the capabilities of LLMs  may be overestimated because
@@ -122,9 +123,9 @@ provenance of data used in every stage of training or fine-tuning, which
 becomes increasingly difficult as more models are trained from existing
 high-quality starting weights; iii) sourcing synthetic training data from an
 existing model which could be contaminated, especially if it is closed-source
-and closed-data, iv) preference tuning objectives, which may in the extreme
-case cause reinforcement feedback allowing the model to evolve to discover
-correct static answers.
+and closed-data, iv) overfitting through preference tuning, which may in the
+extreme case cause reinforcement feedback allowing the model to evolve to
+discover correct static answers.
 
 Checking against a static QA is only an indirect test of reasoning. Text
 questions and answers work well for humans as producing correct answers
@@ -149,7 +150,7 @@ $Bench(rngs)$. The functional variants (denoted here as QA($rngs$)) take as
 inputs a set of deterministic typed random generators $rngs$ which output a
 pseudorandom typed value, e.g., natural int, positive or negative float,
 fractions, string, positive evens or odds, primes. The $rngs$ when seeded make
-the instantiation deterministic generating  a snapshot of each test
+the instantiation deterministic, generating a snapshot of each test
 (denoted here as QA*) and of the entire benchmark.
 
 Each QA* text pair in this snapshot is different from the
@@ -559,6 +560,7 @@ def inputs(rngs, seed):
 \section{Results and Discussion}
 
 \subsection{Functionalizing MATH to MATH()}
+\label{result:functional-math}
 We have functionalized 41.2\% (2060/5000) of the MATH benchmark. This subset was chosen based on the
 portion of the benchmark that is solvable by a group of SOTA closed and OSS
 models, without prompting optimizations (e.g., CoT) and with $pass@1$. This
@@ -569,6 +571,8 @@ coverage, and also permit interpretable results under model-specific prompting
 optimization, and options for testing against $pass@k$ or $maj@j$ for $k,j>1$.
 
 \subsection{Reasoning gap for major models}
+\label{result:gap}
+
 \paragraph{Models evaluated} We ran evaluations over SOTA reasoning models: The closed models accessed through APIs were OpenAI's GPT3.5 and GPT4~\cite{gpt4}, Anthropic's Claude 2.1~\cite{claude2.1}, and Mistral's Mixtral Medium, 7x8B MoE and 7x8B MoE Instruct~\cite{mixtral}. The OSS models included were LLaMA 2 70B~\cite{llama-2}, WizardCoder Python 34B~\cite{wizardcoder-34B}, Yi 34B and Yi Chat 34B~\cite{yi}, StripedHypena Nous and Hessian 7B~\cite{striped-hyena}, Qwen 7B~\cite{qwen}. We chose this subset of models to sample a diversity of sizes, architectures, training data and recipes, and instruction and preference tuning.
 
 \paragraph{Gap = 58-80\% for SOTA models} Evaluated over the Q1'24 snapshot (consisting of Oct-2023, Nov-2023, Dec-2023), we find that the models have a reasoning gap varying between 58.35\% and 80.31\%, as shown in Figure~\ref{fig:accuracy-gap}(a). Figure~\ref{fig:accuracy-gap}(b) shows the percentage of problems the model solved correctly that were evaluated using functional snapshots. While we attempted to functionalize every problem, some were not convertible, either because the problem was already as general as possible, or it was so specific that it did not permit any parameterization. Figure~\ref{fig:accuracy-gap}(c) shows the individual static accuracy vs functional accuracy.
@@ -657,6 +661,8 @@ the aggregated set of models and in the top model (GPT4), although GPT4's gap is
 
 
 \subsection{Analysis of problems solved across all snapshots, i.e., with proper reasoning}
+\label{result:fn-solved}
+
 \paragraph{Problems solved by the top model (GPT4)}
 GPT4 solves 1299 static QA problems (accuracy = 25.98\%), and its functional accuracy with 3-snapshots is 10.82\% (541/5000), giving it the lowest reasoning gap of 58.35\% amongst the models tested. Of these:
 \begin{itemize}
@@ -778,6 +784,15 @@ operators.
     with few shot examples, as others. In particular, we find Anthropic's Claude 2.1 and
     Mistral models tend to default output chain-of-thought steps, which does not
     work very well with the evaluation harness.
+
+  \item {\em Scenarios where functional variant is not general enough}: When we
+    could not generalize a test, we marked it as ``is static''.  This could
+    happen at two extremes: i) when the problem is already in symbolic form or,
+    ii) only permits a single formulation. These labelled cases are the reason
+    for less than 100\% coverage in Section~\ref{result:gap}. Aside from these
+    cases, there might be scenarios where we functionalize but the generalization
+    is simple enough that a pattern match against the original static QA would
+    permit solving the functional snapshots. These cases should be rare.
 
   \item {\em Prompt injection in closed source models or non-determinism in
     closed source APIs:} We do not have access to the additional system prompts being
@@ -933,9 +948,12 @@ so that progress stays stays aligned with real-world experience.
 
 
 \section{Individual contributors and acknowledgments}
-Saurabh conceptualized the framework, implemented the evaluation code, and wrote the paper. 
 Annarose, Shashank, Anto, Ajay, Adwaith, Alan, and Stevin did the major work of converting each
 MATH test into code, and Sooraj oversaw their work.
+%
+Saurabh conceptualized the functionalization and reasoning gap framework,
+implemented the evaluation code, and wrote the paper.
+%
 Feedback from initial reviewers Kelly Iknayan, Ashish Agarwal, Prashast
 Srivastava, Henele Adams, and Soham Mazumdar, helped improve the manuscript.
 

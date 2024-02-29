@@ -35,3 +35,6 @@ evaluated_models.json.pickle
 
 # output of summarize_evals.py
 evaluated_models.stat*
+
+# mac
+.DS_Store
