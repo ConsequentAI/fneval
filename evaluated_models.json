@@ -11,8 +11,8 @@
     { "name": "zero-one-ai/Yi-34B-Chat", "script": "model_api/tog.py", "include": true },
     { "name": "togethercomputer/StripedHyena-Nous-7B", "script": "model_api/tog.py", "include": true },
     { "name": "togethercomputer/StripedHyena-Hessian-7B", "script": "model_api/tog.py", "include": true },
-    { "name": "togethercomputer/Qwen-7B", "script": "model_api/tog.py", "include": true },
 
+    { "name": "togethercomputer/Qwen-7B", "script": "model_api/tog.py", "include": false },
     { "name": "EleutherAI/llemma_7b", "script": "model_api/tog.py", "include": false },
     { "name": "phi2", "script": "model_api/not_implemented.py", "include": false },
     { "name": "orca2", "script": "model_api/not_implemented.py", "include": false }
