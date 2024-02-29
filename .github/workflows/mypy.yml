@@ -32,6 +32,5 @@ jobs:
         pip install mypy flake8
     - name: Check types
       run: |
-        cd fneval
         # flake8 . --ignore E501,W503,W504,W505,E266
         mypy --check-untyped-defs --pretty .
