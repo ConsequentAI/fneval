@@ -25,11 +25,11 @@ these functionalized versions of the benchmarks with "()", e.g., "MATH()" for
 the "MATH" benchmark.
 
 For each model the evaluation script tabulates:
-* Static accuracy: on the static benchmark (e.g., MATH).
-* Functional accuracy: over the last K instances of the functional benchmark
-  (e.g., MATH()).
-* Reasoning Gap: Static - Functional accuracy
-* Hallucination [0,100]: Fraction of times incorrect solution output, instead
+* Static accuracy: accuracy on the static benchmark (e.g., MATH).
+* Functional accuracy: accuracy over the last K instances of the functional benchmark
+  (e.g., MATH()) and the static benchmark.
+* Reasoning Gap: Percent drop from static to functional.
+* Hallucination [0,100]: Percent times incorrect solution output, instead
   of stating no solution.
 
 # Run
@@ -78,7 +78,7 @@ post-processing might help. Similar, is Mixtral-8x7B-Instruct.
 
 # FAQs
 
-1. Why do the accuracy numbers differ from the best reported for the models?  
+1. Why do the accuracy numbers differ from the best reported for the models?
 We have not optimized for getting the best reported accuracy for each model.
 E.g., [Mixtral 8x7B reports](https://arxiv.org/pdf/2401.04088.pdf) 28.4% on
 MATH (4-shot with maj@4) and 74.4% on GSM8K (8-shot with maj@8). Known reasons:
@@ -91,18 +91,18 @@ will not change, but it is an open question about how it affects the gap across
 models.
 
 1. Open question: CoT increases accuracy, but how does it change the reasoning
-   gap?  
+   gap?
 We’re curious too and are actively working on it. We currently use the original
 MATH benchmark's default answer equivalence procedure. CoT requires custom
 answer extractors, which we are currently implementing. The next release will
 include evaluation with and without CoT.
 
 1. Open question: pass@k and maj@k increase topline performance, but do they
-   increase or decrease the reasoning gap?  
+   increase or decrease the reasoning gap?
 Work-in-progress. TBD.
 
 1. Why is the GPT4 number not 78.2% as reported in the [Let's why step by
-   step](https://arxiv.org/abs/2305.20050) paper?  
+   step](https://arxiv.org/abs/2305.20050) paper?
 As mentioned in their repository section [MATH
 Splits](https://github.com/openai/prm800k#math-splits) and in the paper, their
 evaluation is non-standard: "In order to avoid the risk of over-fitting on the
@@ -114,13 +114,13 @@ For the 500 representative problems they pick PRM, ORM, and Majority Voting get
 78.2%, 72.4% and 69.6% when using best-of-1860 (Figure 3).
 
 1. Need a static benchmark functionalized? Better yet, have suggestions for
-   what to add to this eval?  
+   what to add to this eval?
 We would love that. Please email info@consequent.ai
 
 # Citation
 
     @misc{srivastava2024functional,
-          title={Functional Benchmarks for Robust Evaluation of Reasoning Performance, and the Reasoning Gap}, 
+          title={Functional Benchmarks for Robust Evaluation of Reasoning Performance, and the Reasoning Gap},
           author={Saurabh Srivastava and Annarose M B and Anto P V au2 and Shashank Menon and Ajay Sukumar and Adwaith Samod T and Alan Philipose and Stevin Prince and Sooraj Thomas},
           year={2024},
           eprint={2402.19450},
