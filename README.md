@@ -119,11 +119,11 @@ We would love that. Please email info@consequent.ai
 
 # Citation
 
-> @misc{srivastava2024functional,
->       title={Functional Benchmarks for Robust Evaluation of Reasoning Performance, and the Reasoning Gap}, 
->       author={Saurabh Srivastava and Annarose M B and Anto P V au2 and Shashank Menon and Ajay Sukumar and Adwaith Samod T and Alan Philipose and Stevin Prince and Sooraj Thomas},
->       year={2024},
->       eprint={2402.19450},
->       archivePrefix={arXiv},
->       primaryClass={cs.AI}
-> }
+    @misc{srivastava2024functional,
+          title={Functional Benchmarks for Robust Evaluation of Reasoning Performance, and the Reasoning Gap}, 
+          author={Saurabh Srivastava and Annarose M B and Anto P V au2 and Shashank Menon and Ajay Sukumar and Adwaith Samod T and Alan Philipose and Stevin Prince and Sooraj Thomas},
+          year={2024},
+          eprint={2402.19450},
+          archivePrefix={arXiv},
+          primaryClass={cs.AI}
+    }
