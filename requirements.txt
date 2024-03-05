@@ -1,7 +1,7 @@
 pytest>=7.3.1
 codetiming
 openai==0.28.1
-anthropic==0.8.1
+anthropic==0.18.1
 numpy
 together
 mistralai

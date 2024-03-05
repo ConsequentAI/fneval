@@ -389,3 +389,10 @@ class ClosedAPI:
 
     def snapshot_api_query_cache(self):
         self.cacher.save_snapshot()
+
+class Runner:
+    @classmethod
+    def run(cls, name: str, snapshots_specs: str,
+            cot: bool, few_shot_num: int, temperature: float,
+            verbose: bool = False, save_snaphot: bool = False): # type: ignore [empty-body]
+        pass

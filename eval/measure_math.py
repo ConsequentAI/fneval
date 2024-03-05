@@ -197,9 +197,10 @@ class Metrics:
             overriden[s] = matches[0] if matches else None
         return overriden
 
-    def with_functional(self, func: Metrics, model_name: str, verbose: bool) -> Metrics:
+    def with_functional(self, func: Metrics, model_name: str, verbose: bool) -> Tuple[Metrics, Metrics]:
         overriden: Dict[TestMetric, Optional[TestMetric]] = self.get_overriden(func, verbose)
         with_fn = Metrics()
+        of_static_correct_fn_correct = Metrics()
         tested_functionally: Dict[TestMetric, TestMetric] = {}
         total_correct, functionalized_correct = 0, 0
         f_none_count_s_correct = 0
@@ -221,6 +222,10 @@ class Metrics:
                 else:
                     with_fn.update_with(f)
 
+                    # s is correct, and f is not None
+                    # store this as the functional test for when static correct
+                    of_static_correct_fn_correct.update_with(f)
+
                 # for ones overriden, put them in tested_functionally, so we can log to console and file
                 tested_functionally[s] = f
 
@@ -230,7 +235,7 @@ class Metrics:
         with_fn.name = f'{self.name}\\{func.name}'
         self.save_and_log(tested_functionally, model_name, verbose)
 
-        return with_fn
+        return with_fn, of_static_correct_fn_correct
 
     @classmethod
     def consensus(cls, many: List[Metrics]) -> Metrics:
@@ -253,7 +258,7 @@ class Eval:
         self.static_metrics, self.func_metrics = self.get_metrics(solve_fn, fn_snapshots, model_name)
 
         # report combined metrics
-        combined = self.static_metrics.with_functional(self.func_metrics, model_name, verbose)
+        combined, _ = self.static_metrics.with_functional(self.func_metrics, model_name, verbose)
         self.report_stats(combined)
 
         if not os.path.exists(INTERMEDIATES_DIR):

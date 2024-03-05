@@ -1,0 +1,57 @@
+[
+    { "name": "c3-opus", "script": "model_api/ant.py", "include": true, "CoT": false },
+    { "name": "c3-opus", "script": "model_api/ant.py", "include": true, "CoT": true, "few shot": 0 },
+    { "name": "c3-opus", "script": "model_api/ant.py", "include": false, "CoT": true, "few shot": 5, "comment": "running" },
+
+    { "name": "mistral-large", "script": "model_api/mis.py", "include": true, "CoT": false },
+    { "name": "mistral-large", "script": "model_api/mis.py", "include": true, "CoT": true, "few shot": 0 },
+    { "name": "mistral-large", "script": "model_api/mis.py", "include": true, "CoT": true, "few shot": 5 },
+
+    { "name": "mistral-medium", "script": "model_api/mis.py", "include": true, "CoT": false },
+    { "name": "mistral-medium", "script": "model_api/mis.py", "include": true, "CoT": true, "few shot": 5 },
+    { "name": "mistral-medium", "script": "model_api/mis.py", "include": true, "CoT": true, "few shot": 0 },
+
+    { "name": "gpt3", "script": "model_api/oai.py", "include": true, "CoT": false },
+    { "name": "gpt3", "script": "model_api/oai.py", "include": true, "CoT": true, "few shot": 0 },
+    { "name": "gpt3", "script": "model_api/oai.py", "include": true, "CoT": true, "few shot": 5 },
+
+    { "name": "gpt4", "script": "model_api/oai.py", "include": true, "CoT": false },
+    { "name": "gpt4", "script": "model_api/oai.py", "include": true, "CoT": true, "few shot": 0 },
+    { "name": "gpt4", "script": "model_api/oai.py", "include": true, "CoT": true, "few shot": 5 },
+
+    { "name": "togethercomputer/StripedHyena-Nous-7B", "script": "model_api/tog.py", "include": true, "CoT": false },
+    { "name": "togethercomputer/StripedHyena-Nous-7B", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 0 },
+    { "name": "togethercomputer/StripedHyena-Nous-7B", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 5 },
+
+    { "name": "Open-Orca/Mistral-7B-OpenOrca", "script": "model_api/tog.py", "include": false, "CoT": false, "comment": "TBD" },
+    { "name": "Open-Orca/Mistral-7B-OpenOrca", "script": "model_api/tog.py", "include": false, "CoT": true, "few shot": 0, "comment": "TBD" },
+    { "name": "Open-Orca/Mistral-7B-OpenOrca", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 5 },
+
+    { "name": "zero-one-ai/Yi-34B", "script": "model_api/tog.py", "include": false, "CoT": false, "comment": "TBD" },
+    { "name": "zero-one-ai/Yi-34B", "script": "model_api/tog.py", "include": false, "CoT": true, "few shot": 0, "comment": "TBD" },
+    { "name": "zero-one-ai/Yi-34B", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 5 },
+
+    { "name": "Qwen/Qwen1.5-72B", "script": "model_api/tog.py", "include": false, "CoT": false, "comment": "TBD" },
+    { "name": "Qwen/Qwen1.5-72B", "script": "model_api/tog.py", "include": false, "CoT": true, "few shot": 0, "comment": "TBD" },
+    { "name": "Qwen/Qwen1.5-72B", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 5 },
+
+    { "name": "allenai/OLMo-7B-Instruct", "script": "model_api/tog.py", "include": false, "CoT": false, "comment": "TBD" },
+    { "name": "allenai/OLMo-7B-Instruct", "script": "model_api/tog.py", "include": false, "CoT": true, "few shot": 0, "comment": "TBD" },
+    { "name": "allenai/OLMo-7B-Instruct", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 5 },
+
+    { "name": "google/gemma-7b", "script": "model_api/tog.py", "include": false, "CoT": false, "comment": "TBD" },
+    { "name": "google/gemma-7b", "script": "model_api/tog.py", "include": false, "CoT": true, "few shot": 0, "comment": "TBD" },
+    { "name": "google/gemma-7b", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 5 },
+
+    { "name": "meta-llama/Llama-2-70b-hf", "script": "model_api/tog.py", "include": false, "CoT": false, "comment": "TBD" },
+    { "name": "meta-llama/Llama-2-70b-hf", "script": "model_api/tog.py", "include": false, "CoT": true, "few shot": 0, "comment": "TBD" },
+    { "name": "meta-llama/Llama-2-70b-hf", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 5 },
+
+    { "name": "microsoft/phi-2", "script": "model_api/tog.py", "include": false, "CoT": false, "comment": "TBD" },
+    { "name": "microsoft/phi-2", "script": "model_api/tog.py", "include": false, "CoT": true, "few shot": 0, "comment": "TBD" },
+    { "name": "microsoft/phi-2", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 5 },
+
+    { "name": "togethercomputer/RedPajama-INCITE-7B-Instruct", "script": "model_api/tog.py", "include": false, "CoT": false, "comment": "TBD" },
+    { "name": "togethercomputer/RedPajama-INCITE-7B-Instruct", "script": "model_api/tog.py", "include": false, "CoT": true, "few shot": 0, "comment": "TBD" },
+    { "name": "togethercomputer/RedPajama-INCITE-7B-Instruct", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 5 }
+]

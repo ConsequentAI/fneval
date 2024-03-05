@@ -1,5 +1,5 @@
 from typing import Dict, List, Tuple, Optional
-from few_shot import FewShotAnswerSamples
+from few_shot import FewShotAnswerSamples, FewShotBuilder
 from math_utils.math_helpers import rm_latex_math
 from helper_utils import NO_SOLUTION_PREFIX
 
@@ -8,10 +8,10 @@ PRB_TAG = f"{HDR} Problem"
 ANS_TAG = f"{HDR} Answer"
 END_TAG = "\n\n"
 
-class UnformattedLLM:
+class UnformattedLLM(FewShotBuilder):
     INSTRUCTION = f"Given a mathematics problem, determine the answer. "\
                   f"Simplify your answer as much as possible. "\
-                  f"If the answer cannot be computed, or you are not confident, say {NO_SOLUTION_PREFIX}"
+                  f"If the answer cannot be computed, or you are not confident, say {NO_SOLUTION_PREFIX}. "
 
     def few_shot_dict(self, count: int = -1) -> Dict[str, str]:
         ios: Dict[str, str] = self.few_shot_limited(count)

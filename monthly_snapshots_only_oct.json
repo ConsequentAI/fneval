@@ -1,0 +1,17 @@
+[
+  {
+    "benchmark": "MATH",
+    "fixed": "https://people.eecs.berkeley.edu/~hendrycks/MATH.tar",
+    "functionals": [
+      {
+        "date": "Oct-2023",
+        "url": "Oct-2023.tar.gz"
+      }
+    ]
+  },
+  {
+    "benchmark": "GSM8k",
+    "static": "https://",
+    "functionals": []
+  }
+]

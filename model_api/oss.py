@@ -6,20 +6,29 @@ from typing import Any, Awaitable, Dict, Optional, List, Tuple
 from tqdm import tqdm # type: ignore
 
 TOGETHER_API_KEY = os.getenv("TOGETHER_API_KEY")
-DEFAULT_END_TAGS = ['\n\n', '<human>']
+END_TAG = "\n~~~\n"
+DEFAULT_END_TAGS = [END_TAG, '<human>']
 DEFAULT_PROMPT_FORMAT = "<human>: {prompt}\n<model>: {response}"
+MAX_TOKENS = 1024
 
 # Model list: https://docs.together.ai/docs/inference-models
 WORTH_IT_LANG = [
-        "togethercomputer/falcon-40b",
-        "togethercomputer/llama-2-70b",
         "EleutherAI/llemma_7b",
+        "zero-one-ai/Yi-34B",
+        "Open-Orca/Mistral-7B-OpenOrca",
+        "zero-one-ai/Yi-34B",
+        "meta-llama/Llama-2-70b-hf",
+        "Qwen/Qwen1.5-72B",
+        "microsoft/phi-2",
+        "google/gemma-7b",
+        "togethercomputer/RedPajama-INCITE-7B-Instruct",
+        "allenai/OLMo-7B-Instruct",
+
         "mistralai/Mixtral-8x7B-v0.1",
-        "togethercomputer/Qwen-7B",
         "togethercomputer/StripedHyena-Hessian-7B",
         "WizardLM/WizardLM-70B-V1.0",
-        "zero-one-ai/Yi-34B",
 ]
+
 
 WORTH_IT_CODE = [
         "togethercomputer/CodeLlama-34b-Python",
@@ -120,9 +129,11 @@ class OSS(ClosedAPI):
         return self.async_ask(prompt)
 
     async def async_ask(self, prompt: str):
+        # print(f'Sending query: {prompt}')
         return together.Complete.create(
             model = self.params.model.name,
-            max_tokens = 20,
+            max_tokens = MAX_TOKENS,
+            temperature = self.params.temperature,
             prompt = prompt,
             stop = self.params.model.stops
         )
@@ -140,6 +151,6 @@ class OSS(ClosedAPI):
         fs = ""
         for inp, out in ios.items():
             assert self.params.model.stops, f'stop tokens not set'
-            fs += self.format(inp, out) + self.params.model.stops[0]
+            fs += self.format(inp, out) + '\n' + self.params.model.stops[0]
         return fs
 

@@ -7,14 +7,23 @@ from typing import Any, Awaitable, Dict, Optional, List, Tuple
 from tqdm import tqdm # type: ignore
 
 MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
-DEFAULT_END_TAGS = ['\n\n', '<question>']
+END_TAG = "\n~~~\n"
+DEFAULT_END_TAGS = [END_TAG, '<question>']
 DEFAULT_PROMPT_FORMAT = "<question>: {prompt}\n<answer>: {response}"
+MAX_TOKENS = 1024
 
 class MISTRAL_PARAMS:
     def __init__(self):
         # https://docs.mistral.ai/platform/endpoints/
-        models_names: List[str] = ["mistral-tiny", "mistral-small", "mistral-medium"]
-        self.models: Dict[str, KnownModel] = { n: self.known_from_config(n) for n in models_names }
+        # small = 8x7b
+        # medium = unknown but 8x32b rumoured
+        # large = unknown, but apparently does well on evals: https://mistral.ai/news/mistral-large/
+        models_names: Dict[str, str] = {
+                "mistral-small": "mistral-small-2402",
+                "mistral-medium": "mistral-medium-2312",
+                "mistral-large": "mistral-large-2402",
+        }
+        self.models: Dict[str, KnownModel] = { n: self.known_from_config(endpoint) for n, endpoint in models_names.items() }
 
     def known_from_config(self, name: str) -> KnownModel:
         is_chat = True
@@ -53,12 +62,14 @@ class Mistral(ClosedAPI):
         return answer
 
     async def async_ask(self, prompt: str):
+        # print(f'Sending query: {prompt}')
         return self.client.chat(
             model = self.params.model.name,
             messages = [
                 ChatMessage(role="user", content=prompt)
             ],
-            max_tokens = 20,
+            max_tokens = MAX_TOKENS,
+            temperature = self.params.temperature,
         )
 
     def to_prompt_task(self, task: str) -> Any:
