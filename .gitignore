@@ -38,3 +38,6 @@ evaluated_models.stat*
 
 # mac
 .DS_Store
+
+# pycache
+__pycache__

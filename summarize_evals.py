@@ -70,17 +70,19 @@ def stat_solved_statics(es: Dict[str, Eval], prefix, extra):
     write_lines(solved_solns, prefix)
 
 
-def static_func_combined(model, evals) -> Tuple[Any, Any, Any, str, str, bool]:
+def static_func_combined(model, evals) -> Tuple[Any, Any, Any, Any, str, str, bool]:
     static = evals.static_metrics
     func = evals.func_metrics
-    combined = static.with_functional(func, mk_dir_safe(model), verbose = False)
+    verbose = False
+    model_name = mk_dir_safe(model)
+    combined, func_of_static = static.with_functional(func, model_name, verbose)
     gap = PC(*reasoning_gap(static, combined))
     gap_tag = f'{gap:.2f}%'
     pc_fn = PC(*fraction_functionally_tested(static, func))
     pc_fn_tag = f"{pc_fn:.2f}%"
     cover_too_low = pc_fn <= COVERAGE_PC_TOO_LOW_IF_BELOW
     warn_low_cover = pc_fn_tag + (" (too low)" if cover_too_low else "")
-    return static, func, combined, gap_tag, warn_low_cover, cover_too_low
+    return static, func, func_of_static, combined, gap_tag, warn_low_cover, cover_too_low
 
 
 def stat_accuracy(es: Dict[str, Eval], prefix, extra):
@@ -90,15 +92,17 @@ def stat_accuracy(es: Dict[str, Eval], prefix, extra):
         if not accuracies:
             legend = evals.static_metrics.stats_legend()
             accuracies.append(legend)
-        static, func, combined, gap, warn_low_cover, cover_too_low = static_func_combined(model, evals)
+        static, func, func_sub_static, combined, gap, warn_low_cover, cover_too_low = static_func_combined(model, evals)
         if cover_too_low:
             print(f'Coverage too low ({warn_low_cover}) for {model}. Still writing raw data to file.')
+        gap_warn = ' (please dont cite; coverage too low)' if cover_too_low else ''
         accuracies += [
                 hr, model, hr,
                 'static:', static.stats(),
                 'functional:', func.stats(),
+                'functional correct amongst static correct:', func_sub_static.stats(),
                 'combined:', combined.stats(),
-                'reasoning gap:', gap,
+                'reasoning gap:', gap + gap_warn,
                 'pc functionally tested:', warn_low_cover,
                 'coverage low:', str(cover_too_low),
                 hr]
@@ -108,7 +112,7 @@ def stat_accuracy(es: Dict[str, Eval], prefix, extra):
 def stat_csv_static_func(es: Dict[str, Eval], prefix, extra):
     accuracies: List[str] = ["Model,Static,Func,Frac Func Tested,Static Hall,Func Hall,Gap,Fn Coverage"]
     for model, evals in es.items():
-        static, func, combined, gap, warn_low, cover_too_low = static_func_combined(model, evals)
+        static, func, func_sub_static, combined, gap, warn_low, cover_too_low = static_func_combined(model, evals)
         if cover_too_low:
             print(f'Coverage too low ({warn_low}) for {model}. Skipping. Run stat_accuracy for raw data.')
             continue
@@ -146,7 +150,7 @@ def stat_csv_subject_level(es: Dict[str, Eval], prefix, extra):
     sub_accs: ModelTypStatFunc = {}
     lvl_accs: ModelTypStatFunc = {}
     for model, evals in es.items():
-        static, _, comb, _, _, _ = static_func_combined(model, evals)
+        static, _, _, comb, _, _, _ = static_func_combined(model, evals)
         s_accs = { sub: (acc_s(static, sub), acc_s(comb, sub)) for sub in SUBJECTS }
         l_accs = { lvl: (acc_l(static, lvl), acc_l(comb, lvl)) for lvl in range(1,6) }
         sub_accs[model] = s_accs
@@ -199,7 +203,7 @@ def stat_dropoff(es: Dict[str, Eval], prefix, extra):
         return next(tm for tm in static.individuals if tm.fname == f.fname)
 
     for model, evals in es.items():
-        static, func, _, _, _, _ = static_func_combined(model, evals)
+        static, func, _, _, _, _, _ = static_func_combined(model, evals)
         dropped = [hdr]
         for fn in func.individuals:
             if not fn.correct:
@@ -214,7 +218,7 @@ def stat_dropoff(es: Dict[str, Eval], prefix, extra):
 def stat_single_model_contribution(es: Dict[str, Eval], prefix, extra):
     corrects = {}
     for model, evals in es.items():
-        static, func, _, _, _, _ = static_func_combined(model, evals)
+        static, func, _, _, _, _, _ = static_func_combined(model, evals)
         corrects[model] = [s.fname for s in static.individuals if s.correct]
     cummulative: Dict[str, List[str]] = {}
     for model in es:

@@ -5,44 +5,42 @@ from typing import Dict, List, Tuple
 from math_utils.math_helpers import rm_latex_math
 from unformatted_llm import UnformattedLLM
 from model_api.closed_api import KnownModel, ParameterizedModel
-from model_api.claude2 import Claude2, ANTHROPIC_PARAMS
+from model_api.claude import Claude, ANTHROPIC_PARAMS
 from evaluate import DEFAULT_SNAPSHOTS_FILE
+from chain_of_thought import COT_INSTRUCTION, ChainOfThought
+
+PREAMBLE = f"QQuery. Answer the MATH query below. "
+INSTRUCTION = PREAMBLE + COT_INSTRUCTION
 
 class Answers:
     def __init__(self, model: KnownModel, few_shot_num: int = -1):
         self.model = model
-        few_shot: Dict[str, str] = UnformattedLLM().few_shot_limited(few_shot_num)
+        self.cot = ChainOfThought()
+        few_shot: Dict[str, str] = self.cot.few_shot_limited(few_shot_num)
         params = ParameterizedModel(
                 temp = 0.7,
-                instruction = UnformattedLLM.INSTRUCTION,
+                instruction = INSTRUCTION,
                 who_are_you = "",
                 few_shot = few_shot,
                 model = model,
                 agent_name = f"Anthropic_Eval_{mk_dir_safe(model.name)}",
         )
-        self.claude2 = Claude2(params)
-
-    def first_word_opt(self, answer: str) -> str:
-        # claude2 outputs a lot of junk after the answer
-        # split on whitespace and make the first word the answer if a first word exists
-        many = answer.split()
-        if many and many[0]:
-            answer = many[0]
-        return answer
+        self.claude = Claude(params)
 
     def answers(self, prb: str) -> List[Tuple[str, str]]:
-        completion = self.claude2.query([prb], rate_limited = False)[0]
-        answer = self.claude2.extract_answer(completion)
-        answer = self.first_word_opt(answer)
+        completion = self.claude.query([prb], rate_limited = False)[0]
+        answer = self.claude.extract_answer(completion)
+        answer = self.cot.extract_answer(answer)
         return [(answer, completion)]
 
     @classmethod
     def run(cls, name: str, snapshots_specs: str, verbose: bool = False, save_snaphot: bool = False):
         known_model = ANTHROPIC_PARAMS.SHORT_NAMES[name]
-        answerer = Answers(known_model, few_shot_num = 5)
+        # 0-shot apparently works; so no examples needed
+        answerer = Answers(known_model, few_shot_num = 0) # few_shot_num = 5
         e = EvalRunner(answerer, snapshots_specs, verbose).do()
         if save_snaphot:
-            answerer.claude2.snapshot_api_query_cache()
+            answerer.claude.snapshot_api_query_cache()
         return e
 
 
