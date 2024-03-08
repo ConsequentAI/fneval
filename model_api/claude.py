@@ -1,12 +1,12 @@
 import os
 from model_api.closed_api import ClosedAPI, RateLimited, KnownModel, PERIODS_PER_MIN, ParameterizedModel
-from unformatted_llm import UnformattedLLM
 from typing import Any, Awaitable, Dict, Optional
 
 from anthropic import AsyncAnthropic, HUMAN_PROMPT, AI_PROMPT
 
 CLAUDE_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 END_TAG = "\n~~~\n"
+MAX_TOKENS = 1024
 
 mk_model = lambda name: KnownModel(
         name,
@@ -70,9 +70,10 @@ class Claude(ClosedAPI):
         return
 
     def model_ask(self, prompt: str) -> Awaitable[Any]:
+        # print(f'Sending query: {prompt}')
         message = self.anthropic.messages.create(
                 model = self.params.model.name,
-                max_tokens = 1024,
+                max_tokens = MAX_TOKENS,
                 temperature = self.params.temperature,
                 system = "You are a MATH expert.",
                 messages = [{

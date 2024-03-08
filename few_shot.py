@@ -6,6 +6,12 @@ class FewShot:
         self.outcome = outcome
         self.sol = sol
 
+
+class FewShotBuilder:
+    def few_shot_limited(self, count: int) -> Dict[str, str]: # type: ignore [empty-body]
+        pass
+
+
 FewShotAnswerSamples = [
     FewShot(
         prb = "What is $\left(\\frac{7}{8}\\right)^3 \cdot \left(\\frac{7}{8}\\right)^{-3}$?",

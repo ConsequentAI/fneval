@@ -56,7 +56,7 @@ export HUGGING_FACE_HUB_TOKEN="hf_..."
 ```
 
 # Known Issues
-* More permissive output equivalence needed. Examples:
+* More permissive output equivalence would be good, but a hard problem. Examples:
     * a) Output in expression form: `C(21,7)` instead of `116280` (Claude); `9
       choose 2 = 36` instead of `36` (Mixtral)
     * b) Output not simplified: `5! = 5 × 4 × 3 × 2 × 1 = 1` (likely max_tokens
@@ -71,35 +71,20 @@ the ground truth is `1` (Mistral Medium)
 * Functional instantiations can sometimes result in problems or answers that
   are too long. E.g., in one of the instantiations in the `Dec-2023` snapshot a
 benchmark's output number has more than 40 digits.
-* Anthropic's Claude 2 is verbose and its output appears to be CoT-like by
-  default, and the answer is not up-front in its output. More dedicated
-post-processing might help. Similar, is Mixtral-8x7B-Instruct.
-
 
 # FAQs
 
 1. Why do the accuracy numbers differ from the best reported for the models?
-We have not optimized for getting the best reported accuracy for each model.
-E.g., [Mixtral 8x7B reports](https://arxiv.org/pdf/2401.04088.pdf) 28.4% on
-MATH (4-shot with maj@4) and 74.4% on GSM8K (8-shot with maj@8). Known reasons:
-The few shot examples used may not be optimal, and we do not do maj@k or
-pass@k. Future iterations of this repo will fix that as long as across models
-the same few-shot examples are used, and same maj@k is used. The specific
-"role" and "instruction prompt" can differ, based on what works best for each
-model. We conjecture that the overall conclusions about reasoning gap presence
-will not change, but it is an open question about how it affects the gap across
-models.
-
-1. Open question: CoT increases accuracy, but how does it change the reasoning
-   gap?
-We’re curious too and are actively working on it. We currently use the original
-MATH benchmark's default answer equivalence procedure. CoT requires custom
-answer extractors, which we are currently implementing. The next release will
-include evaluation with and without CoT.
+We have not optimized for getting the best reported accuracy for each model,
+and we likely will not do that. The best reported might need undisclosed
+prompting, or post-processing (e.g., for CoT answer extraction or more liberal
+math equivalence matching). We will experiment with {maj,pass}@k though.
+We conjecture that the overall conclusions about reasoning gap presence
+will not change.
 
 1. Open question: pass@k and maj@k increase topline performance, but do they
    increase or decrease the reasoning gap?
-Work-in-progress. TBD.
+Work-in-progress. Requires 100% MATH coverage.
 
 1. Why is the GPT4 number not 78.2% as reported in the [Let's why step by
    step](https://arxiv.org/abs/2305.20050) paper?

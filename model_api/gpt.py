@@ -13,6 +13,8 @@ from persist import Persist
 # In debug mode will only make limited API queries
 DEBUG_MODE_NUM_LIMIT = None # 200 # or None for non-debug mode
 
+# end few shot instances with special tag
+END_TAG = "\n~~~\n"
 
 # how much buffer on being nice with API calls; e.g., if 100/min allowed then we do 50/min if factor = 2
 BATCH_SZ_FACTOR_PER_MIN = 8
@@ -38,20 +40,17 @@ class OAI_PARAMS:
     QUERY_PER_MIN_LIMIT = {
             "gpt4": 200,
             "gpt3": 3500,
-            "davinci": 3000,
     }
     if isinstance(DEBUG_MODE_NUM_LIMIT, int):
         QUERY_PER_MIN_LIMIT = {
                 "gpt4": min(200, DEBUG_MODE_NUM_LIMIT),
                 "gpt3": min(3500, DEBUG_MODE_NUM_LIMIT),
-                "davinci": min(3000, DEBUG_MODE_NUM_LIMIT),
         }
 
     # https://openai.com/pricing#language-models
     MODEL_COST_PER_TOKEN = {
             "gpt4": 0.03 / 1000,
             "gpt3": 0.0015 / 1000,
-            "davinci": 0.0200 / 1000,
     }
 
     # Note, legacy text models, e.g., DAVINCI are being deprecated Jan 2024
@@ -73,9 +72,8 @@ class OAI_PARAMS:
 class OAI_MODELS:
     GPT4 = KnownModel("gpt-4", is_chat = True, **OAI_PARAMS.LOC, **OAI_PARAMS.rates("gpt4")) # type: ignore
     GPT3 = KnownModel("gpt-3.5-turbo", is_chat = True, **OAI_PARAMS.LOC, **OAI_PARAMS.rates("gpt3")) # type: ignore
-    DAVINCI = KnownModel("davinci", is_chat = False, **OAI_PARAMS.LOC, **OAI_PARAMS.rates("davinci")) # type: ignore
 
-    SHORT_NAMES = {"gpt4": GPT4, "gpt3": GPT3, "davinci": DAVINCI}
+    SHORT_NAMES = {"gpt4": GPT4, "gpt3": GPT3}
 
     DEFAULT_MODEL = GPT3
 
@@ -84,14 +82,18 @@ class GPT(ClosedAPI):
         self.params = params
         super().__init__(params)
 
-        identity = lambda x: x
-
         a, t, c, p = GPT.model_fns(params.model, params.temperature, params.few_shot, params.instruction, params.who_are_you)
         self.model_ask = a # type: ignore [method-assign]
         self.to_prompt_task = t # type: ignore [method-assign]
         self.deobject = c # type: ignore [method-assign]
-        self.extract_answer = identity # type: ignore [method-assign]
         self.prelude = p
+
+    def extract_answer(self, response) -> str:
+        completion = response.lstrip()
+        end = completion.find(END_TAG)
+        answer = completion[:end] if end != -1 else completion
+        answer = answer.strip()
+        return answer
 
     def reset_library(self, model_params):
         # reset openai library
@@ -108,31 +110,23 @@ class GPT(ClosedAPI):
         # docs: https://github.com/openai/openai-python#async-api
 
         # chat ask, raw api query
-        chat_ask = lambda msgs: openai.ChatCompletion.acreate(
-            model = model.name,
-            messages = msgs,
-            temperature = temp,
-        )
+        def chat_ask(msgs):
+            # print(f'Sending query: {msgs}')
+            return openai.ChatCompletion.acreate(
+                model = model.name,
+                messages = msgs,
+                temperature = temp,
+            )
         # prelude added to each query
         who = {"role": "system", "content": who_are_you}
         chat_prelude = [who]
         for inp, out in few_shot.items():
             que = {"role": "user", "content": instruction + inp}
             chat_prelude.append(que)
-            ans = {"role": "assistant", "content": out}
+            ans = {"role": "assistant", "content": out + END_TAG}
             chat_prelude.append(ans)
         # extract
         chat_txt_from_obj = lambda response: response['choices'][0]['message']['content']
-
-        # text ask, prelude, and extract functions
-        unformatted = UnformattedLLM()
-        text_ask = lambda task: openai.Completion.acreate(
-            engine = model.name,
-            prompt = unformatted.format(task),
-            temperature = temp,
-        )
-        text_prelude = unformatted.few_shot_format(few_shot)
-        text_txt_from_obj = lambda response: unformatted.extract_answer(response['choices'][0].text)
 
         def chat_task(task: str):
             messages = deepcopy(chat_prelude)
@@ -140,22 +134,11 @@ class GPT(ClosedAPI):
             messages.append(que)
             return messages
 
-        def text_task(task: str):
-            return text_prelude + instruction + task + "\n"
-
         # pick appropriate functions based on model type
-        prelude: Any = None
-        if model.is_chat:
-            callfn = chat_ask
-            promptfn = chat_task
-            deobject = chat_txt_from_obj
-            prelude = chat_prelude
-        else:
-            callfn = text_ask
-            promptfn = text_task
-            deobject = text_txt_from_obj
-            prelude = text_prelude
-            print(f"[WARN] Initializing text {model.name}, but text_ask does not take max_tokens param")
+        callfn = chat_ask
+        promptfn = chat_task
+        deobject = chat_txt_from_obj
+        prelude = chat_prelude
         return callfn, promptfn, deobject, prelude
 
     def check_model_access(self):

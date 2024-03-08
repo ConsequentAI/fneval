@@ -4,40 +4,46 @@ import sys
 from typing import Dict, List, Tuple
 from math_utils.math_helpers import rm_latex_math
 from unformatted_llm import UnformattedLLM
-from model_api.closed_api import KnownModel, ParameterizedModel
+from model_api.closed_api import KnownModel, ParameterizedModel, Runner
 from model_api.claude import Claude, ANTHROPIC_PARAMS
-from evaluate import DEFAULT_SNAPSHOTS_FILE
+from evaluate import DEFAULT_SNAPSHOTS_FILE, DEFAULT_FEW_SHOT_NUM, DEFAULT_TEMPERATURE
 from chain_of_thought import COT_INSTRUCTION, ChainOfThought
 
-PREAMBLE = f"QQuery. Answer the MATH query below. "
-INSTRUCTION = PREAMBLE + COT_INSTRUCTION
-
-class Answers:
-    def __init__(self, model: KnownModel, few_shot_num: int = -1):
+class Answers(Runner):
+    def __init__(self, model: KnownModel, use_cot: bool, few_shot_num: int, temperature: float):
         self.model = model
+        self.use_cot = use_cot
         self.cot = ChainOfThought()
-        few_shot: Dict[str, str] = self.cot.few_shot_limited(few_shot_num)
+        unformatted = UnformattedLLM()
+
+        few_shot_builder = self.cot if use_cot else unformatted
+        instruction = COT_INSTRUCTION if use_cot else unformatted.INSTRUCTION
+        few_shot: Dict[str, str] = few_shot_builder.few_shot_limited(few_shot_num)
+        cache_infer_params = f'temp={temperature}_cot={use_cot}_fs={few_shot_num}'
+        cache_model_name = mk_dir_safe(model.name)
         params = ParameterizedModel(
-                temp = 0.7,
-                instruction = INSTRUCTION,
+                temp = temperature,
+                instruction = instruction,
                 who_are_you = "",
                 few_shot = few_shot,
                 model = model,
-                agent_name = f"Anthropic_Eval_{mk_dir_safe(model.name)}",
+                agent_name = f"Anthropic_Eval_{cache_model_name}_{cache_infer_params}",
         )
         self.claude = Claude(params)
 
     def answers(self, prb: str) -> List[Tuple[str, str]]:
         completion = self.claude.query([prb], rate_limited = False)[0]
         answer = self.claude.extract_answer(completion)
-        answer = self.cot.extract_answer(answer)
+        if self.use_cot:
+            answer = self.cot.extract_answer(answer)
         return [(answer, completion)]
 
     @classmethod
-    def run(cls, name: str, snapshots_specs: str, verbose: bool = False, save_snaphot: bool = False):
+    def run(cls, name: str, snapshots_specs: str,
+            cot: bool, few_shot_num: int, temperature: float,
+            verbose: bool = False, save_snaphot: bool = False):
         known_model = ANTHROPIC_PARAMS.SHORT_NAMES[name]
-        # 0-shot apparently works; so no examples needed
-        answerer = Answers(known_model, few_shot_num = 0) # few_shot_num = 5
+        answerer = Answers(known_model, cot, few_shot_num, temperature)
         e = EvalRunner(answerer, snapshots_specs, verbose).do()
         if save_snaphot:
             answerer.claude.snapshot_api_query_cache()
@@ -51,9 +57,17 @@ if __name__ == "__main__":
     parser.add_argument("--snapshots_specs", type=str, default=DEFAULT_SNAPSHOTS_FILE,
             help = f"JSON of static and monthly snapshots")
     parser.add_argument("--verbose", action='store_true',
-                        help="Outcomes of each test, one per line, on console")
+            help="Outcomes of each test, one per line, on console")
+    parser.add_argument("--use_chain_of_thought", action='store_true',
+            help="Use chain of thought instruction and postprocessing")
+    parser.add_argument("--few_shot_num", type=str, default=DEFAULT_FEW_SHOT_NUM,
+            help=f"Default few shot count: {DEFAULT_FEW_SHOT_NUM}")
+    parser.add_argument("--temperature", type=float, default=DEFAULT_TEMPERATURE,
+            help=f"Default temperature: {DEFAULT_TEMPERATURE}")
     parser.add_argument("--save_snapshot", action='store_true',
-                        help="Save API query snapshot as .tar.gz file")
+            help="Save API query snapshot as .tar.gz file")
     args = parser.parse_args()
 
-    Answers.run(args.model, args.snapshots_specs, args.verbose, args.save_snapshot)
+    Answers.run(args.model, args.snapshots_specs,
+            args.use_chain_of_thought, args.few_shot_num, args.temperature,
+            args.verbose, args.save_snapshot)

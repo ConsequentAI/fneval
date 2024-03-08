@@ -2,18 +2,18 @@
 
 from typing import Dict, List, Tuple
 from math_utils.math_helpers import rm_latex_math
-from few_shot import CoTFewShotAnswerSamples
+from few_shot import CoTFewShotAnswerSamples, FewShotBuilder
+from helper_utils import NO_SOLUTION_PREFIX
 
-# TODO: prefix COT_INSTRUCTION with COT_PROMPT. Claude 3 (Mixtral as well?) default to CoT
-#       so first set of experiments do not need this;
-#       but when we use the same infra for GPT4 + Mixtral + Claude3 then we should prefix to be sure
-COT_PROMPT = "Think step by step"
-
-# COT INSTRUCTION
+PREAMBLE = "Answer the MATH query below. " \
+           f"If the answer cannot be computed, or you are not confident, say {NO_SOLUTION_PREFIX}. "
+COT_PROMPT = "Think step by step. "
 ANSWER_TAG = "The answer is: "
-COT_INSTRUCTION = f"End the answer with \"{ANSWER_TAG} \" followed by the answer you compute.\n"
+END_WITH_ANSWER = f"End the answer with \"{ANSWER_TAG} \" followed by only the answer you compute and no extra words.\n"
 
-class ChainOfThought:
+COT_INSTRUCTION = PREAMBLE + COT_PROMPT + END_WITH_ANSWER
+
+class ChainOfThought(FewShotBuilder):
     def __init__(self):
         mk_io = lambda fs: (fs.prb, fs.sol + '\n' + ANSWER_TAG + rm_latex_math(fs.outcome))
         self.few_shot_io: List[Tuple[str, str]] = [ mk_io(fs) for fs in CoTFewShotAnswerSamples ]
@@ -54,12 +54,16 @@ class ChainOfThought:
         # Anthropic team: Is there a way to force it to not do that?
         #                 Or is there a more sophisticated math equivalence check you are using?
 
-        if ' ' in extracted:
-            # print(f'\n---------------\n')
-            # print(f'From:{answer}')
-            # print(f'\n---------------\n')
+        console_confirm = False
+        if console_confirm:
+            print(f'\n---------------\n')
+            print(f'From:{answer}')
+            print(f'\n---------------\n')
             print(f'Extracted: {extracted}')
-            # print(f'\n---------------\n')
+            print(f'\n---------------\n')
+            input('Continue? ')
+        if ' ' in extracted:
+            print(f'Extracted: {extracted}')
         if not extracted:
             print(f'Missing extraction; no answer tag; likely exceeded token length.')
         return extracted

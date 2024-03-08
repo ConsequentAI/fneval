@@ -31,13 +31,16 @@ api_query_cache/Together_Eval_zero-one-ai_Yi-34B/
 intermediate
 
 # individual test results from model evals; output of evaluate.py
-evaluated_models.json.pickle
+*.json.pickle
 
 # output of summarize_evals.py
-evaluated_models.stat*
+*.json.pickle.*
 
 # mac
 .DS_Store
 
 # pycache
 __pycache__
+
+# vim swaps
+*.swp
