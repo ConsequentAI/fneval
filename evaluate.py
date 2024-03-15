@@ -2,7 +2,7 @@ from loader import load_mod
 from eval.measure_math import Eval
 import json
 import argparse
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Tuple
 from persist import Persist
 
 
@@ -32,6 +32,14 @@ class ModelSpec:
     def ident(self) -> str:
         cot_yn = 'yes' if self.chain_of_thought else 'no'
         return self.model + f'_cot={cot_yn}_fs={self.few_shot_num}_temp={self.temperature}'
+
+    def __repr__(self) -> str:
+        return self.ident()
+
+    def spec_csv(self) -> Tuple[str,str]:
+        hdr = f'model,cot,fewshot,temp'
+        row = f'{self.model},{self.chain_of_thought},{self.few_shot_num},{self.temperature}'
+        return hdr,row
 
 class ModelRunners:
     def __init__(self, spec_file: str, snapshots_specs: str, verbose: bool, save_snapshot: bool):

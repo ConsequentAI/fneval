@@ -40,8 +40,10 @@ class Answers:
             completion = self.oss.query([prb], rate_limited = False)[0]
         except Exception as he:
             if f'{he}' == KNOWN_CRASH:
-                print(f'[WARN] CRASH on prb below\n-----\n{prb}\n-----\nIgnoring and Continue!')
+                # print(f'[WARN] CRASH on prb below\n-----\n{prb}\n-----\nIgnoring and Continue!')
                 completion = ""
+            else:
+                raise he
         answer = self.oss.extract_answer(completion)
         if self.use_cot:
             answer = self.cot.extract_answer(answer)

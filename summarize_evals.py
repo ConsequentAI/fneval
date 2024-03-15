@@ -23,7 +23,7 @@ def write_lines(lines: List[Any], prefix, ext = "txt"):
     print(f'Written to {outfile}')
 
 
-def solved_by_models_across_snapshots(frac_models, es: Dict[str, Eval], prefix):
+def solved_by_models_across_snapshots(frac_models, es, prefix):
     model_solved: Dict[str, List[str]] = { model: e.get_solved(only_static = False) for model, e in es.items() }
     solved: List[List[str]] = [s for _, s in model_solved.items()]
 
@@ -56,15 +56,24 @@ def reasoning_gap(static, combined) -> Tuple[int, int]:
     return st-cb, st
 
 
-def stat_solved_by_majority_models_across_snapshots(es: Dict[str, Eval], prefix, extra):
+def model_specs_to_str(evals_spec: Dict[ModelSpec, Eval]) -> Dict[str, Eval]:
+    to_str = lambda ms: ms.spec_csv()[1]
+    evals: Dict[str, Eval] = { to_str(ms): e for ms, e in evals_spec.items() }
+    return evals
+
+
+def stat_solved_by_majority_models_across_snapshots(evaluations, prefix, extra):
+    es = model_specs_to_str(evaluations)
     solved_by_models_across_snapshots(0.5, es, prefix)
 
 
-def stat_solved_by_all_models_across_snapshots(es: Dict[str, Eval], prefix, extra):
+def stat_solved_by_all_models_across_snapshots(evaluations, prefix, extra):
+    es = model_specs_to_str(evaluations)
     solved_by_models_across_snapshots(1.0, es, prefix)
 
 
-def stat_solved_statics(es: Dict[str, Eval], prefix, extra):
+def stat_solved_statics(evaluations, prefix, extra):
+    es = model_specs_to_str(evaluations)
     solved: Dict[str, List[str]] = { model: e.get_solved(only_static = True) for model, e in es.items() }
     solved_solns = sorted(list(set(s for _, solns in solved.items() for s in solns)))
     write_lines(solved_solns, prefix)
@@ -85,7 +94,8 @@ def static_func_combined(model, evals) -> Tuple[Any, Any, Any, Any, str, str, bo
     return static, func, func_of_static, combined, gap_tag, warn_low_cover, cover_too_low
 
 
-def stat_accuracy(es: Dict[str, Eval], prefix, extra):
+def stat_accuracy(evaluations, prefix, extra):
+    es = model_specs_to_str(evaluations)
     hr = '-' * 100
     accuracies: List[str] = []
     for model, evals in es.items():
@@ -109,26 +119,118 @@ def stat_accuracy(es: Dict[str, Eval], prefix, extra):
     write_lines(accuracies, prefix)
 
 
-def stat_csv_static_func(es: Dict[str, Eval], prefix, extra):
-    force_write_low_covers = 'FORCE_WRITE_LOW_COVERS' in extra
-    accuracies: List[str] = ["Model,Static,Func,Frac Func Tested,Static Hall,Func Hall,Gap,Fn Coverage,Correct Amongst Fn Tested"]
-    for model, evals in es.items():
+class ModelAccuracies:
+    def __init__(self, model, evals):
         static, func, func_sub_static, combined, gap, warn_low, cover_too_low = static_func_combined(model, evals)
-        if cover_too_low:
-            print(f'Coverage too low ({warn_low}) for {model}.')
+        self.st = PC(*static.accuracy())
+        self.fn = PC(*combined.accuracy())
+        self.pc_fn = PC(*fraction_functionally_tested(static, func))
+        self.st_h = PC(*static.hallucinations())
+        self.fn_h = PC(*combined.hallucinations())
+        self.fn_correct = PC(*func_sub_static.accuracy())
+        self.gap = gap
+        self.warn_low = warn_low
+        self.cover_too_low = cover_too_low
+
+    HDRS = 'Static,Func,Frac Func Tested,Static Hall,Func Hall,Gap,Fn Coverage,Correct Amongst Fn Tested'
+
+    def __repr__(self):
+        return f'{self.st:.2f}%,{self.fn:.2f}%,{self.pc_fn:.2f}%,{self.st_h:.2f}%,{self.fn_h:.2f}%,{self.gap},{self.warn_low},{self.fn_correct:.2f}%'
+
+def stat_csv_static_func(evaluations, prefix, extra):
+    es = model_specs_to_str(evaluations)
+    force_write_low_covers = 'FORCE_WRITE_LOW_COVERS' in extra
+
+    model_spec = next(iter(evaluations)).spec_csv()[0]
+    accuracies: List[str] = [f'{model_spec},{ModelAccuracies.HDRS}']
+    some_skipped = False
+
+    for model, evals in es.items():
+        model_accs = ModelAccuracies(model, evals)
+        if model_accs.cover_too_low:
+            print(f'Coverage too low ({model_accs.warn_low}) for {model}.')
             if not force_write_low_covers:
+                some_skipped = True
                 continue
-        st = PC(*static.accuracy())
-        fn = PC(*combined.accuracy())
-        st_h = PC(*static.hallucinations())
-        fn_h = PC(*combined.hallucinations())
-        pc_fn = PC(*fraction_functionally_tested(static, func))
-        fn_correct = PC(*func_sub_static.accuracy())
-        accuracies.append(f'{model},{st:.2f}%,{fn:.2f}%,{pc_fn:.2f}%,{st_h:.2f}%,{fn_h:.2f}%,{gap},{warn_low},{fn_correct:.2f}%')
+        accuracies.append(f'{model},{model_accs}')
+
+    if some_skipped:
+        print('Low coverage values skipped; add extra flag to include them: --extra \'{"FORCE_WRITE_LOW_COVERS": "True"}\'')
     write_lines(accuracies, prefix, ext = "csv")
 
 
-def stat_csv_subject_level(es: Dict[str, Eval], prefix, extra):
+def stat_effect_of_cot(evaluations, prefix, extra):
+    without_cot = {}
+    with_cot = {}
+    for model_spec, evals in evaluations.items():
+        if model_spec.chain_of_thought:
+            with_cot[model_spec] = evals
+        else:
+            without_cot[model_spec] = evals
+
+    def find_with_cot(ms: ModelSpec):
+        for ms_with, evals in with_cot.items():
+            if ms_with.model == ms.model and \
+                ms_with.few_shot_num == ms.few_shot_num and \
+                ms_with.temperature == ms.temperature:
+                    return ms_with, evals
+        return None, None
+
+    to_str = lambda ms: ms.spec_csv()[1]
+    hdrs = ModelAccuracies.HDRS
+    with_and_without = [f'model,fs,temp,{hdrs},{hdrs}']
+    for ms, evals in without_cot.items():
+        with_ms, with_evals = find_with_cot(ms)
+        if not with_ms:
+            continue
+
+        model_desc = f'{ms.model},{ms.few_shot_num},{ms.temperature}'
+        with_nums = ModelAccuracies(to_str(with_ms), with_evals)
+        without_nums = ModelAccuracies(to_str(ms), evals)
+
+        line = f'{model_desc},{without_nums},{with_nums}'
+        with_and_without.append(line)
+
+    write_lines(with_and_without, prefix, ext = "csv")
+
+
+def stat_effect_of_fewshot(evaluations, prefix, extra):
+    without_fs = {}
+    with_fs = {}
+    for model_spec, evals in evaluations.items():
+        if model_spec.few_shot_num == 0:
+            without_fs[model_spec] = evals
+        else:
+            with_fs[model_spec] = evals
+
+    def find_with_fs(ms: ModelSpec):
+        for ms_with, evals in with_fs.items():
+            if ms_with.model == ms.model and \
+                ms_with.chain_of_thought == ms.chain_of_thought and \
+                ms_with.temperature == ms.temperature:
+                    return ms_with, evals
+        return None, None
+
+    to_str = lambda ms: ms.spec_csv()[1]
+    hdrs = ModelAccuracies.HDRS
+    with_and_without = [f'model,cot,temp,{hdrs},{hdrs}']
+    for ms, evals in without_fs.items():
+        with_ms, with_evals = find_with_fs(ms)
+        if not with_ms:
+            continue
+
+        model_desc = f'{ms.model},{ms.chain_of_thought},{ms.temperature}'
+        with_nums = ModelAccuracies(to_str(with_ms), with_evals)
+        without_nums = ModelAccuracies(to_str(ms), evals)
+
+        line = f'{model_desc},{without_nums},{with_nums}'
+        with_and_without.append(line)
+
+    write_lines(with_and_without, prefix, ext = "csv")
+
+
+def stat_csv_subject_level(evaluations, prefix, extra):
+    es = model_specs_to_str(evaluations)
     # model -> typ (subject or level) -> (static, func)
     ModelTypStatFunc = Dict[str, Dict[Any, Tuple[float, float]]]
 
@@ -175,7 +277,8 @@ def stat_csv_subject_level(es: Dict[str, Eval], prefix, extra):
     write("AllModels.Level", collapse_models(lvl_accs, avg))
 
 
-def stat_dropoff(es: Dict[str, Eval], prefix, extra):
+def stat_dropoff(evaluations, prefix, extra):
+    es = model_specs_to_str(evaluations)
     tab = '\t'
     def summary_line(s, f):
         jsn = f'functional-math/prbs/{s.fname}'
@@ -218,7 +321,8 @@ def stat_dropoff(es: Dict[str, Eval], prefix, extra):
         write_lines(dropped, fname, ext = 'tsv')
 
 
-def stat_single_model_contribution(es: Dict[str, Eval], prefix, extra):
+def stat_model_counts(evaluations, prefix, extra):
+    es = model_specs_to_str(evaluations)
     corrects = {}
     for model, evals in es.items():
         static, func, _, _, _, _, _ = static_func_combined(model, evals)
@@ -242,7 +346,8 @@ def stat_single_model_contribution(es: Dict[str, Eval], prefix, extra):
     write_lines(overlaps, prefix + '.count_models', ext='csv')
 
 
-def stat_solved_statics_not_functionalized(es: Dict[str, Eval], prefix, extra):
+def stat_solved_statics_not_functionalized(evaluations, prefix, extra):
+    es = model_specs_to_str(evaluations)
     # root of already functionalized problems
     prb_root = extra['ROOT_FUNCMATH_PRBS']
 
@@ -297,8 +402,7 @@ if __name__ == "__main__":
 
     infile = args.in_file if args.in_file else DEFAULT_EVAL_PICKLE_FILE
 
-    evals_spec: Dict[ModelSpec, Eval] = Persist.load(infile)
-    evals: Dict[str, Eval] = { ms.ident(): e for ms, e in evals_spec.items() }
+    evals: Dict[ModelSpec, Eval] = Persist.load(infile)
     print(f'Processing eval data from: {list(evals.keys())}')
     stat_fn = getattr(sys.modules[__name__], args.stat_fn)
     prefix = infile
