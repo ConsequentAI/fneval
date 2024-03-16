@@ -255,6 +255,7 @@ class Metrics:
 class Eval:
     def __init__(self, solve_fn, fn_snapshots, model_name, verbose = False):
         self.verbose = verbose
+        self.problems_tested = []
         self.static_metrics, self.func_metrics = self.get_metrics(solve_fn, fn_snapshots, model_name)
 
         # report combined metrics
@@ -357,6 +358,15 @@ class Eval:
         equiv, text_answer, completion = self.compare_answer(ref_answer, solns)
         frac_correct = 1.0 if equiv else 0.0
 
+        prb_tested = {
+                'problem': prb,
+                'reference solution': ref_answer,
+                'is_static': is_static,
+                'level': prob_level,
+                'type': prob_type,
+                'fname': fname,
+        }
+        self.problems_tested.append(prb_tested)
         rslt = TestMetric(
                 correct = equiv,
                 frac_correct = frac_correct,

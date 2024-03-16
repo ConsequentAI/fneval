@@ -27,6 +27,8 @@ hr = "=" * 100
 BACKOFF_MSG = lambda e: f'\n\n{hr}\nService unavailable.\nError = {e}\nPausing for {BACKOFF_TIME_SECONDS} seconds.\n{hr}\n\n'
 BACKOFF_ABORT_MSG = lambda e: f'\n\n{hr}\nService unavailable after {BACKOFF_NUM_RETRIES} attempts.\nError = {e}\n{hr}\nAborting!\n\n'
 
+OFFLINE_DEFER = "DEFERRED; MAGIC; NOTHING TO SEE HERE!"
+
 class KnownModel:
     def __init__(self,
             name: str,
@@ -371,8 +373,9 @@ class ClosedAPI:
         # not cached, make api call
         answer, stat = await self.api_call(task)
 
-        # write to cache even in the case when we don't pull from it
-        self.cacher.put(task, answer)
+        if answer != OFFLINE_DEFER:
+            # write to cache even in the case when we don't pull from it
+            self.cacher.put(task, answer)
 
         return (answer, stat), True
 
@@ -382,8 +385,10 @@ class ClosedAPI:
         response = await self.model_ask(self.to_prompt_task(task))
         elapsed = NOW_MS() - start_ms
 
-        cost = self.spent(response)
+        if response == OFFLINE_DEFER:
+            return OFFLINE_DEFER, QStat(0, 0)
 
+        cost = self.spent(response)
         txt_response = self.deobject(response)
         return txt_response, QStat(cost, elapsed)
 

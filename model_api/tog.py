@@ -1,7 +1,7 @@
 from eval.runner import EvalRunner, mk_dir_safe
 import argparse
 import sys
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Any
 from math_utils.math_helpers import rm_latex_math
 from unformatted_llm import UnformattedLLM
 from model_api.closed_api import KnownModel, ParameterizedModel
@@ -52,7 +52,7 @@ class Answers:
     @classmethod
     def run(cls, name: str, snapshots_specs: str,
             cot: bool, few_shot_num: int, temperature: float,
-            verbose: bool = False, save_snaphot: bool = False):
+            verbose: bool = False, save_snaphot: bool = False, extra_params: Dict[str, Any] = {}):
         known_model = _TOGETHER.models[name]
         answerer = Answers(known_model, cot, few_shot_num, temperature)
         e = EvalRunner(answerer, snapshots_specs, verbose).do()

@@ -19,6 +19,8 @@ SPEC_NAME = 'name'
 SPEC_COT = 'CoT'
 SPEC_FEW_SHOT = 'few shot'
 SPEC_TEMP = 'temperature'
+SPEC_EXTRA_PARAMS = 'extra_params'
+SPEC_EXTRA_PARAMS_MODE_WRITE_OFFLINE = 'write_qs'
 
 
 class ModelSpec:
@@ -28,6 +30,7 @@ class ModelSpec:
         self.chain_of_thought = spec[SPEC_COT]
         self.few_shot_num = spec[SPEC_FEW_SHOT] if SPEC_FEW_SHOT in spec else DEFAULT_FEW_SHOT_NUM
         self.temperature = spec[SPEC_TEMP] if SPEC_TEMP in spec else DEFAULT_TEMPERATURE
+        self.extra_params = json.loads(spec[SPEC_EXTRA_PARAMS]) if SPEC_EXTRA_PARAMS in spec else {}
 
     def ident(self) -> str:
         cot_yn = 'yes' if self.chain_of_thought else 'no'
@@ -66,7 +69,8 @@ class ModelRunners:
                 ms.few_shot_num,
                 ms.temperature,
                 self.verbose,
-                self.save_snapshot)
+                self.save_snapshot,
+                ms.extra_params)
 
     def run_models_for(self, script: str) -> Dict[ModelSpec, Eval]:
         return { ms: self.run(ms) for ms in self.models[script] }
