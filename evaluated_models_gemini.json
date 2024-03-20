@@ -1,0 +1,13 @@
+[
+    { "name": "gemini-ultra", "extra_params": "{\"write_qs\": true}", "script": "model_api/offline.py", "include": true, "CoT": false },
+    { "name": "gemini-ultra", "extra_params": "{\"write_qs\": true}", "script": "model_api/offline.py", "include": true, "CoT": true, "few shot": 0 },
+    { "name": "gemini-ultra", "extra_params": "{\"write_qs\": true}", "script": "model_api/offline.py", "include": true, "CoT": true, "few shot": 5 },
+
+    { "name": "gemini-pro",   "extra_params": "{\"write_qs\": true}", "script": "model_api/offline.py", "include": true, "CoT": false },
+    { "name": "gemini-pro",   "extra_params": "{\"write_qs\": true}", "script": "model_api/offline.py", "include": true, "CoT": true, "few shot": 0 },
+    { "name": "gemini-pro",   "extra_params": "{\"write_qs\": true}", "script": "model_api/offline.py", "include": true, "CoT": true, "few shot": 5 },
+
+    { "name": "gemini-nano",  "extra_params": "{\"write_qs\": true}", "script": "model_api/offline.py", "include": true, "CoT": false },
+    { "name": "gemini-nano",  "extra_params": "{\"write_qs\": true}", "script": "model_api/offline.py", "include": true, "CoT": true, "few shot": 0 },
+    { "name": "gemini-nano",  "extra_params": "{\"write_qs\": true}", "script": "model_api/offline.py", "include": true, "CoT": true, "few shot": 5 }
+]
