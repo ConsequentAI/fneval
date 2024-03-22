@@ -5,6 +5,10 @@ This repository accompanies the paper
 [Functional Benchmarks for Robust Evaluation of Reasoning Performance,
 and the Reasoning Gap](https://arxiv.org/abs/2402.19450)
 
+Summary tweet threads:
+[Without CoT](https://twitter.com/_saurabh/status/1763626711407816930),
+and [with CoT](https://twitter.com/_saurabh/status/1769852207925805080).
+
 ---
 
 **Note (Feb'24): This repo and associated paper will not be finalized until the
@@ -32,20 +36,8 @@ For each model the evaluation script tabulates:
 * Hallucination [0,100]: Percent times incorrect solution output, instead
   of stating no solution.
 
-# Run
-Make sure you have your API keys exported, then run:
-```
-python3 -m evaluate
-
-# check list of available stat FNs using the cmd below,
-# i.e., no stat_fn # provided, run by providing names
-python3 -m summarize_evals --stat_fn
-
-# dump out accuracies for static/functional
-python3 -m summarize_evals --stat_fn stat_accuracy
-```
-
-# API Keys needed
+# Run (with external API calls)
+Export the following keys:
 ```
 export OPENAI_ORG="org-..."
 export OPENAI_API_KEY="sk-..."
@@ -55,30 +47,48 @@ export MISTRAL_API_KEY="..."
 export HUGGING_FACE_HUB_TOKEN="hf_..."
 ```
 
-# Known Issues
-* More permissive output equivalence would be good, but a hard problem. Examples:
-    * a) Output in expression form: `C(21,7)` instead of `116280` (Claude); `9
-      choose 2 = 36` instead of `36` (Mixtral)
-    * b) Output not simplified: `5! = 5 × 4 × 3 × 2 × 1 = 1` (likely max_tokens
-      truncated) when the ground truth is indeed `120` (Mixtral);
-`33(22-12+1)=33*11=363` when the ground truth is indeed `363` (Mixtral).
-    * c) Non-semantic characters, which are not known: `$\frac{1}{16}$` for the
-      ground truth `\frac{1}{16}` in `counting_and_probability/289.json`
-(Mixtral)
-    * d) Additional verbiage: `$g(x) = 3 - 2f(x)$` for ground truth `3 - 2f(x)`
-      (Mistral medium); `The remainder when $2^8$ is divided by 5 is 1.` when
-the ground truth is `1` (Mistral Medium)
-* Functional instantiations can sometimes result in problems or answers that
-  are too long. E.g., in one of the instantiations in the `Dec-2023` snapshot a
-benchmark's output number has more than 40 digits.
+After exporting the API keys, run:
+```
+python3 -m evaluate
+
+# compute accuracies for static/functional (or run with just --stat_fn to see all available stats)
+python3 -m summarize_evals --stat_fn stat_accuracy
+```
+
+# Run (offline, with manual model completions)
+If you have an internal model that cannot be called via API, then it might be best to dump out all prompts to JSON, and complete them offline and bring them back into the harness. There is a fake api called `model_api/offline.py` that lets you do that.
+
+Create two model spec JSONs, one for writing prompts, and one for reading completions
+
+Writing prompts `evaluated_models_write_qs.json` should look like:
+```
+[ { "name": "your-local-model", "script": "model_api/offline.py", "include": true, "CoT": false, "extra_params": "{\"write_qs\": true}" } ]
+```
+Reading completions `evaluated_models.json` should look like:
+```
+[ { "name": "your-local-model", "script": "model_api/offline.py", "include": true, "CoT": false } ]
+```
+
+```
+# dump prompts
+python -m evaluate --model_specs evaluated_models_write_qs.json
+
+# run your local model and complete each of the prompts in the output JSON
+# create a new JSON by adding the completions as a "completion" field in the prompts JSON
+
+# run completions
+python3 -m evaluate --model_specs evaluated_models.json # this step is not fully implemented in the code
+
+# compute accuracies for static/functional (or run with just --stat_fn to see all available stats)
+python3 -m summarize_evals --stat_fn stat_accuracy
+```
 
 # FAQs
 
 1. Why do the accuracy numbers differ from the best reported for the models?
 We have not optimized for getting the best reported accuracy for each model,
 and we likely will not do that. The best reported might need undisclosed
-prompting, or post-processing (e.g., for CoT answer extraction or more liberal
-math equivalence matching). We will experiment with {maj,pass}@k though.
+prompting, or post-processing.
 We conjecture that the overall conclusions about reasoning gap presence
 will not change.
 
@@ -98,9 +108,12 @@ at random, and we believe they are representative of the test set as a whole."
 For the 500 representative problems they pick PRM, ORM, and Majority Voting get
 78.2%, 72.4% and 69.6% when using best-of-1860 (Figure 3).
 
-1. Need a static benchmark functionalized? Better yet, have suggestions for
-   what to add to this eval?
-We would love that. Please email info@consequent.ai
+# Known Issues
+* More liberal output math equivalence matching. E.g., `C(21,7)` instead of `116280`
+  (Claude non-CoT); `9 choose 2 = 36` instead of `36` (Mixtral non-CoT).
+* Functional instantiations can sometimes result in problems or answers that
+  are too long. E.g., in one of the instantiations in the `Dec-2023` snapshot a
+benchmark's output number has more than 40 digits.
 
 # Citation
 
