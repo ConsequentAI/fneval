@@ -52,22 +52,40 @@ api_query_cache/Mistral_Eval_mistral-medium-2312_temp=0.0_cot=False_fs=5
 api_query_cache/Mistral_Eval_mistral-medium-2312_temp=0.0_cot=True_fs=5
 api_query_cache/Mistral_Eval_mistral-medium-2312_temp=0.0_cot=True_fs=0
 
-# OLD
-# api_query_cache/Anthropic_Eval_claude-2.1/
-# api_query_cache/Mistral_Eval_mistral-medium/
-# api_query_cache/OAI_Eval_davinci/
-# api_query_cache/OAI_Eval_gpt-3.5-turbo/
-# api_query_cache/OAI_Eval_gpt-4/
-# api_query_cache/Together_Eval_EleutherAI_llemma_7b/
-# api_query_cache/Together_Eval_WizardLM_WizardCoder-Python-34B-V1.0/
-# api_query_cache/Together_Eval_mistralai_Mixtral-8x7B-Instruct-v0.1/
-# api_query_cache/Together_Eval_mistralai_Mixtral-8x7B-v0.1/
-# api_query_cache/Together_Eval_togethercomputer_Qwen-7B/
-# api_query_cache/Together_Eval_togethercomputer_StripedHyena-Hessian-7B/
-# api_query_cache/Together_Eval_togethercomputer_StripedHyena-Nous-7B/
-# api_query_cache/Together_Eval_togethercomputer_llama-2-70b/
-# api_query_cache/Together_Eval_zero-one-ai_Yi-34B-Chat/
-# api_query_cache/Together_Eval_zero-one-ai_Yi-34B/
+# Qwen, gap vs model size
+api_query_cache/Together_Eval_Qwen_Qwen1.5-0.5B-Chat_temp=0.0_cot=False_fs=5
+api_query_cache/Together_Eval_Qwen_Qwen1.5-0.5B-Chat_temp=0.0_cot=True_fs=0
+api_query_cache/Together_Eval_Qwen_Qwen1.5-0.5B-Chat_temp=0.0_cot=True_fs=5
+api_query_cache/Together_Eval_Qwen_Qwen1.5-0.5B_temp=0.0_cot=False_fs=5
+api_query_cache/Together_Eval_Qwen_Qwen1.5-0.5B_temp=0.0_cot=True_fs=0
+api_query_cache/Together_Eval_Qwen_Qwen1.5-0.5B_temp=0.0_cot=True_fs=5
+api_query_cache/Together_Eval_Qwen_Qwen1.5-1.8B-Chat_temp=0.0_cot=False_fs=5
+api_query_cache/Together_Eval_Qwen_Qwen1.5-1.8B-Chat_temp=0.0_cot=True_fs=0
+api_query_cache/Together_Eval_Qwen_Qwen1.5-1.8B-Chat_temp=0.0_cot=True_fs=5
+api_query_cache/Together_Eval_Qwen_Qwen1.5-1.8B_temp=0.0_cot=False_fs=5
+api_query_cache/Together_Eval_Qwen_Qwen1.5-1.8B_temp=0.0_cot=True_fs=0
+api_query_cache/Together_Eval_Qwen_Qwen1.5-1.8B_temp=0.0_cot=True_fs=5
+api_query_cache/Together_Eval_Qwen_Qwen1.5-14B-Chat_temp=0.0_cot=False_fs=5
+api_query_cache/Together_Eval_Qwen_Qwen1.5-14B-Chat_temp=0.0_cot=True_fs=0
+api_query_cache/Together_Eval_Qwen_Qwen1.5-14B-Chat_temp=0.0_cot=True_fs=5
+api_query_cache/Together_Eval_Qwen_Qwen1.5-14B_temp=0.0_cot=False_fs=5
+api_query_cache/Together_Eval_Qwen_Qwen1.5-14B_temp=0.0_cot=True_fs=0
+api_query_cache/Together_Eval_Qwen_Qwen1.5-14B_temp=0.0_cot=True_fs=5
+api_query_cache/Together_Eval_Qwen_Qwen1.5-4B-Chat_temp=0.0_cot=False_fs=5
+api_query_cache/Together_Eval_Qwen_Qwen1.5-4B-Chat_temp=0.0_cot=True_fs=0
+api_query_cache/Together_Eval_Qwen_Qwen1.5-4B-Chat_temp=0.0_cot=True_fs=5
+api_query_cache/Together_Eval_Qwen_Qwen1.5-4B_temp=0.0_cot=False_fs=5
+api_query_cache/Together_Eval_Qwen_Qwen1.5-4B_temp=0.0_cot=True_fs=0
+api_query_cache/Together_Eval_Qwen_Qwen1.5-4B_temp=0.0_cot=True_fs=5
+api_query_cache/Together_Eval_Qwen_Qwen1.5-72B-Chat_temp=0.0_cot=False_fs=5
+api_query_cache/Together_Eval_Qwen_Qwen1.5-72B-Chat_temp=0.0_cot=True_fs=0
+api_query_cache/Together_Eval_Qwen_Qwen1.5-72B-Chat_temp=0.0_cot=True_fs=5
+api_query_cache/Together_Eval_Qwen_Qwen1.5-7B-Chat_temp=0.0_cot=False_fs=5
+api_query_cache/Together_Eval_Qwen_Qwen1.5-7B-Chat_temp=0.0_cot=True_fs=0
+api_query_cache/Together_Eval_Qwen_Qwen1.5-7B-Chat_temp=0.0_cot=True_fs=5
+api_query_cache/Together_Eval_Qwen_Qwen1.5-7B_temp=0.0_cot=False_fs=5
+api_query_cache/Together_Eval_Qwen_Qwen1.5-7B_temp=0.0_cot=True_fs=0
+api_query_cache/Together_Eval_Qwen_Qwen1.5-7B_temp=0.0_cot=True_fs=5
 
 # output of individual evals, intermediate from eval/measure_math.py
 intermediate
