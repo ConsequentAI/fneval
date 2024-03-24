@@ -1,0 +1,49 @@
+[
+    { "name": "Qwen/Qwen1.5-0.5B", "script": "model_api/tog.py", "include": true, "CoT": false },
+    { "name": "Qwen/Qwen1.5-0.5B", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 0 },
+    { "name": "Qwen/Qwen1.5-0.5B", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 5 },
+
+    { "name": "Qwen/Qwen1.5-1.8B", "script": "model_api/tog.py", "include": true, "CoT": false },
+    { "name": "Qwen/Qwen1.5-1.8B", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 0 },
+    { "name": "Qwen/Qwen1.5-1.8B", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 5 },
+
+    { "name": "Qwen/Qwen1.5-4B", "script": "model_api/tog.py", "include": true, "CoT": false },
+    { "name": "Qwen/Qwen1.5-4B", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 0 },
+    { "name": "Qwen/Qwen1.5-4B", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 5 },
+
+    { "name": "Qwen/Qwen1.5-7B", "script": "model_api/tog.py", "include": true, "CoT": false },
+    { "name": "Qwen/Qwen1.5-7B", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 0 },
+    { "name": "Qwen/Qwen1.5-7B", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 5 },
+
+    { "name": "Qwen/Qwen1.5-14B", "script": "model_api/tog.py", "include": true, "CoT": false },
+    { "name": "Qwen/Qwen1.5-14B", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 0 },
+    { "name": "Qwen/Qwen1.5-14B", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 5 },
+
+    { "name": "Qwen/Qwen1.5-72B", "script": "model_api/tog.py", "include": true, "CoT": false },
+    { "name": "Qwen/Qwen1.5-72B", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 0 },
+    { "name": "Qwen/Qwen1.5-72B", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 5 },
+
+    { "name": "Qwen/Qwen1.5-0.5B-Chat", "script": "model_api/tog.py", "include": true, "CoT": false },
+    { "name": "Qwen/Qwen1.5-0.5B-Chat", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 0 },
+    { "name": "Qwen/Qwen1.5-0.5B-Chat", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 5 },
+
+    { "name": "Qwen/Qwen1.5-1.8B-Chat", "script": "model_api/tog.py", "include": true, "CoT": false },
+    { "name": "Qwen/Qwen1.5-1.8B-Chat", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 0 },
+    { "name": "Qwen/Qwen1.5-1.8B-Chat", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 5 },
+
+    { "name": "Qwen/Qwen1.5-4B-Chat", "script": "model_api/tog.py", "include": true, "CoT": false },
+    { "name": "Qwen/Qwen1.5-4B-Chat", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 0 },
+    { "name": "Qwen/Qwen1.5-4B-Chat", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 5 },
+
+    { "name": "Qwen/Qwen1.5-7B-Chat", "script": "model_api/tog.py", "include": true, "CoT": false },
+    { "name": "Qwen/Qwen1.5-7B-Chat", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 0 },
+    { "name": "Qwen/Qwen1.5-7B-Chat", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 5 },
+
+    { "name": "Qwen/Qwen1.5-14B-Chat", "script": "model_api/tog.py", "include": true, "CoT": false },
+    { "name": "Qwen/Qwen1.5-14B-Chat", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 0 },
+    { "name": "Qwen/Qwen1.5-14B-Chat", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 5 },
+
+    { "name": "Qwen/Qwen1.5-72B-Chat", "script": "model_api/tog.py", "include": true, "CoT": false },
+    { "name": "Qwen/Qwen1.5-72B-Chat", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 0 },
+    { "name": "Qwen/Qwen1.5-72B-Chat", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 5 }
+]
