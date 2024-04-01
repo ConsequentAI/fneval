@@ -1,8 +1,12 @@
 set datafile separator ','
 set xrange [0:100]
 set yrange [0:100]
-set ylabel "Reasoning Gap"
-set xlabel "Size"
+set ylabel "Reasoning Gap %"
+set xlabel "Size (B)"
+
+set terminal pdfcairo size 7in,4in
+set output "size-vs-gap.pdf"
+
 plot 'evaluated_models_qwen.json.pickle.stat_csv_static_func.csv' \
      using 5:(stringcolumn(2) eq "False" && $3==5 && stringcolumn(6) eq "text"?$15:NaN) title "no-CoT 5-shot Text", \
   '' using 5:(stringcolumn(2) eq "False" && $3==5 && stringcolumn(6) eq "chat"?$15:NaN) title "no-CoT 5-shot Chat", \
@@ -10,4 +14,3 @@ plot 'evaluated_models_qwen.json.pickle.stat_csv_static_func.csv' \
   '' using 5:(stringcolumn(2) eq "True" && $3==5 && stringcolumn(6) eq "text"?$15:NaN) title "CoT 5-shot Text", \
   '' using 5:(stringcolumn(2) eq "True" && $3==0 && stringcolumn(6) eq "chat"?$15:NaN) title "CoT 0-shot Chat", \
   '' using 5:(stringcolumn(2) eq "True" && $3==5 && stringcolumn(6) eq "chat"?$15:NaN) title "CoT 5-shot Chat"
-
