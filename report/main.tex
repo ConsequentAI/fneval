@@ -832,6 +832,8 @@ CommonsenseQA~\cite{commonsenseQA},
 NaturalQuestions~\cite{naturalquestions}, TriviaQA~\cite{triviaQA}),
 logical (LSAT~\cite{lsat}),
 or legal (LegalSupport~\cite{helm}).
+There have been few attempts to perturb static benchmark QAs using models, e.g.,
+for GSM8K~\cite{gsmplus}.
 Aggregated benchmarks collect many of these domains and attempt to give
 a comprehensive view of a generalized capabilities for foundational models
 (MMLU~\cite{mmlu},
@@ -853,9 +855,12 @@ We worry that without a
 systemic move away from text QAs, such benchmarks are prone to eventual
 leakage, and overestimation of solving capabilities of existing models.
 
-Alternative benchmarking techniques are being proposed, e.g., through
-uncertainty quantification~\cite{uncertainity-quant}, ROSCOE step-by-step scoring~\cite{roscoe},
-counterfactual facts~\cite{counterfactual}.
+Given concerns raised here and by others (e.g., that
+multiple-choice questions can be answered without seeing the
+question~\cite{mcq-without-questions}) alternative benchmarking techniques are
+being proposed. Some of them include uncertainty
+quantification~\cite{uncertainity-quant}, ROSCOE step-by-step
+scoring~\cite{roscoe}, and using counterfactual facts~\cite{counterfactual}.
 
 We would suggest using our functionalization or the alternative benchmarking
 techniques, applied over existing popular or new text benchmarks as the way
