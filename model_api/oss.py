@@ -37,6 +37,9 @@ WORTH_IT_LANG = [
         "Qwen/Qwen1.5-72B",
 
         "mistralai/Mixtral-8x7B-v0.1",
+        "mistralai/Mixtral-8x22B",
+        # "databricks/dbrx-instruct",
+
         "togethercomputer/StripedHyena-Hessian-7B",
         "WizardLM/WizardLM-70B-V1.0",
 ]
