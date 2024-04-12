@@ -38,7 +38,7 @@ WORTH_IT_LANG = [
 
         "mistralai/Mixtral-8x7B-v0.1",
         "mistralai/Mixtral-8x22B",
-        # "databricks/dbrx-instruct",
+        "databricks/dbrx-instruct",
 
         "togethercomputer/StripedHyena-Hessian-7B",
         "WizardLM/WizardLM-70B-V1.0",
@@ -104,7 +104,7 @@ class TOGETHER_PARAMS:
             stops = info["config"]["stop"]
             if "prompt_format" in info["config"]:
                 prompt_format = info["config"]["prompt_format"]
-            else if info["config"]["chat_template_name"] == 'default':
+            elif info["config"]["chat_template_name"] == 'default':
                 # https://docs.together.ai/reference/chat
                 prompt_format = "<human>: {prompt}\n<bot>:"
             else:
