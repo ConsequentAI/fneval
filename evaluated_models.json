@@ -11,6 +11,10 @@
     { "name": "mistral-medium", "script": "model_api/mis.py", "include": true, "CoT": true, "few shot": 5 },
     { "name": "mistral-medium", "script": "model_api/mis.py", "include": true, "CoT": true, "few shot": 0 },
 
+    { "name": "mistralai/Mixtral-8x22B", "script": "model_api/tog.py", "include": true, "CoT": false },
+    { "name": "mistralai/Mixtral-8x22B", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 0 },
+    { "name": "mistralai/Mixtral-8x22B", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 5 },
+
     { "name": "gpt3", "script": "model_api/oai.py", "include": true, "CoT": false },
     { "name": "gpt3", "script": "model_api/oai.py", "include": true, "CoT": true, "few shot": 0 },
     { "name": "gpt3", "script": "model_api/oai.py", "include": true, "CoT": true, "few shot": 5 },
@@ -18,6 +22,10 @@
     { "name": "gpt4", "script": "model_api/oai.py", "include": true, "CoT": false },
     { "name": "gpt4", "script": "model_api/oai.py", "include": true, "CoT": true, "few shot": 0 },
     { "name": "gpt4", "script": "model_api/oai.py", "include": true, "CoT": true, "few shot": 5 },
+
+    { "name": "databricks/dbrx-instruct", "script": "model_api/tog.py", "include": true, "CoT": false },
+    { "name": "databricks/dbrx-instruct", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 0 },
+    { "name": "databricks/dbrx-instruct", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 5 },
 
     { "name": "togethercomputer/StripedHyena-Nous-7B", "script": "model_api/tog.py", "include": true, "CoT": false },
     { "name": "togethercomputer/StripedHyena-Nous-7B", "script": "model_api/tog.py", "include": true, "CoT": true, "few shot": 0 },

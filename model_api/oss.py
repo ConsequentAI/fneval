@@ -37,6 +37,9 @@ WORTH_IT_LANG = [
         "Qwen/Qwen1.5-72B",
 
         "mistralai/Mixtral-8x7B-v0.1",
+        "mistralai/Mixtral-8x22B",
+        "databricks/dbrx-instruct",
+
         "togethercomputer/StripedHyena-Hessian-7B",
         "WizardLM/WizardLM-70B-V1.0",
 ]
@@ -99,7 +102,14 @@ class TOGETHER_PARAMS:
             # >>> together.Models.info(model='mistralai/Mixtral-8x7B-Instruct-v0.1')["config"]
             # {'stop': ['</s>', '[INST]'], 'prompt_format': '[INST] {prompt} [/INST]', 'chat_template_name': 'llama'}
             stops = info["config"]["stop"]
-            prompt_format = info["config"]["prompt_format"] + "{response}"
+            if "prompt_format" in info["config"]:
+                prompt_format = info["config"]["prompt_format"]
+            elif info["config"]["chat_template_name"] == 'default':
+                # https://docs.together.ai/reference/chat
+                prompt_format = "<human>: {prompt}\n<bot>:"
+            else:
+                assert False, f'Do not know what prompt_format to use. config: {info["config"]}'
+            prompt_format += "{response}"
 
         return KnownModel(name,
                 is_chat,

@@ -70,10 +70,11 @@ class OAI_PARAMS:
     LOC = { "api_org": API_ORG, "api_key": API_KEY, "api_base": "https://api.openai.com/v1" }
 
 class OAI_MODELS:
+    GPT4Turbo = KnownModel("gpt-4-turbo-2024-04-09", is_chat = True, **OAI_PARAMS.LOC, **OAI_PARAMS.rates("gpt4")) # type: ignore
     GPT4 = KnownModel("gpt-4", is_chat = True, **OAI_PARAMS.LOC, **OAI_PARAMS.rates("gpt4")) # type: ignore
     GPT3 = KnownModel("gpt-3.5-turbo", is_chat = True, **OAI_PARAMS.LOC, **OAI_PARAMS.rates("gpt3")) # type: ignore
 
-    SHORT_NAMES = {"gpt4": GPT4, "gpt3": GPT3}
+    SHORT_NAMES = {"gpt4turbo": GPT4Turbo, "gpt4": GPT4, "gpt3": GPT3}
 
     DEFAULT_MODEL = GPT3
 
