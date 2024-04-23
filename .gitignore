@@ -51,6 +51,12 @@ api_query_cache/Mistral_Eval_mistral-large-2402_temp=0.0_cot=True_fs=5
 api_query_cache/Mistral_Eval_mistral-medium-2312_temp=0.0_cot=False_fs=5
 api_query_cache/Mistral_Eval_mistral-medium-2312_temp=0.0_cot=True_fs=5
 api_query_cache/Mistral_Eval_mistral-medium-2312_temp=0.0_cot=True_fs=0
+api_query_cache/Together_Eval_databricks_dbrx-instruct_temp=0.0_cot=False_fs=5
+api_query_cache/Together_Eval_databricks_dbrx-instruct_temp=0.0_cot=True_fs=0
+api_query_cache/Together_Eval_databricks_dbrx-instruct_temp=0.0_cot=True_fs=5
+api_query_cache/Together_Eval_mistralai_Mixtral-8x22B_temp=0.0_cot=False_fs=5
+api_query_cache/Together_Eval_mistralai_Mixtral-8x22B_temp=0.0_cot=True_fs=0
+api_query_cache/Together_Eval_mistralai_Mixtral-8x22B_temp=0.0_cot=True_fs=5
 
 # Qwen, gap vs model size
 api_query_cache/Together_Eval_Qwen_Qwen1.5-0.5B-Chat_temp=0.0_cot=False_fs=5
