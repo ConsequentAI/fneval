@@ -18,13 +18,28 @@ WORTH_IT_LANG = [
         "Open-Orca/Mistral-7B-OpenOrca",
         "zero-one-ai/Yi-34B",
         "meta-llama/Llama-2-70b-hf",
-        "Qwen/Qwen1.5-72B",
         "microsoft/phi-2",
         "google/gemma-7b",
         "togethercomputer/RedPajama-INCITE-7B-Instruct",
         "allenai/OLMo-7B-Instruct",
 
+        "Qwen/Qwen1.5-0.5B-Chat",
+        "Qwen/Qwen1.5-1.8B-Chat",
+        "Qwen/Qwen1.5-4B-Chat",
+        "Qwen/Qwen1.5-7B-Chat",
+        "Qwen/Qwen1.5-14B-Chat",
+        "Qwen/Qwen1.5-72B-Chat",
+        "Qwen/Qwen1.5-0.5B",
+        "Qwen/Qwen1.5-1.8B",
+        "Qwen/Qwen1.5-4B",
+        "Qwen/Qwen1.5-7B",
+        "Qwen/Qwen1.5-14B",
+        "Qwen/Qwen1.5-72B",
+
         "mistralai/Mixtral-8x7B-v0.1",
+        "mistralai/Mixtral-8x22B",
+        "databricks/dbrx-instruct",
+
         "togethercomputer/StripedHyena-Hessian-7B",
         "WizardLM/WizardLM-70B-V1.0",
 ]
@@ -87,7 +102,14 @@ class TOGETHER_PARAMS:
             # >>> together.Models.info(model='mistralai/Mixtral-8x7B-Instruct-v0.1')["config"]
             # {'stop': ['</s>', '[INST]'], 'prompt_format': '[INST] {prompt} [/INST]', 'chat_template_name': 'llama'}
             stops = info["config"]["stop"]
-            prompt_format = info["config"]["prompt_format"] + "{response}"
+            if "prompt_format" in info["config"]:
+                prompt_format = info["config"]["prompt_format"]
+            elif info["config"]["chat_template_name"] == 'default':
+                # https://docs.together.ai/reference/chat
+                prompt_format = "<human>: {prompt}\n<bot>:"
+            else:
+                assert False, f'Do not know what prompt_format to use. config: {info["config"]}'
+            prompt_format += "{response}"
 
         return KnownModel(name,
                 is_chat,

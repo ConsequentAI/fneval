@@ -4,6 +4,7 @@ import sys
 import os
 import json
 import shutil
+import re
 from persist import Persist
 from typing import List, Dict, Any, Set, Tuple
 from eval.measure_math import Eval, Metrics, SUBJECTS
@@ -60,6 +61,18 @@ def model_specs_to_str(evals_spec: Dict[ModelSpec, Eval]) -> Dict[str, Eval]:
     to_str = lambda ms: ms.spec_csv()[1]
     evals: Dict[str, Eval] = { to_str(ms): e for ms, e in evals_spec.items() }
     return evals
+
+
+def extract_size_from_name(name: str) -> str:
+    p = re.compile('([0-9.]*)B')
+    sz = p.findall(name)
+    return sz[0] if sz else ''
+
+
+def extract_ischat_from_name(name: str) -> str:
+    if re.findall('chat', name, re.IGNORECASE):
+        return 'chat'
+    return 'text'
 
 
 def stat_solved_by_majority_models_across_snapshots(evaluations, prefix, extra):
@@ -128,21 +141,22 @@ class ModelAccuracies:
         self.st_h = PC(*static.hallucinations())
         self.fn_h = PC(*combined.hallucinations())
         self.fn_correct = PC(*func_sub_static.accuracy())
+        self.gap_fn_tested = 100.0 - self.fn_correct
         self.gap = gap
         self.warn_low = warn_low
         self.cover_too_low = cover_too_low
 
-    HDRS = 'Static,Func,Frac Func Tested,Static Hall,Func Hall,Gap,Fn Coverage,Correct Amongst Fn Tested'
+    HDRS = 'Static%,Func%,Frac Func Tested%,Static Hall%,Func Hall%,Gap%,Fn Coverage,Accuracy Among Fn Tested%,Gap Among Fn Tested%'
 
     def __repr__(self):
-        return f'{self.st:.2f}%,{self.fn:.2f}%,{self.pc_fn:.2f}%,{self.st_h:.2f}%,{self.fn_h:.2f}%,{self.gap},{self.warn_low},{self.fn_correct:.2f}%'
+        return f'{self.st:.2f},{self.fn:.2f},{self.pc_fn:.2f},{self.st_h:.2f},{self.fn_h:.2f},{self.gap},{self.warn_low},{self.fn_correct:.2f},{self.gap_fn_tested:.2f}'
 
 def stat_csv_static_func(evaluations, prefix, extra):
     es = model_specs_to_str(evaluations)
     force_write_low_covers = 'FORCE_WRITE_LOW_COVERS' in extra
 
     model_spec = next(iter(evaluations)).spec_csv()[0]
-    accuracies: List[str] = [f'{model_spec},{ModelAccuracies.HDRS}']
+    accuracies: List[str] = [f'{model_spec},Size,Chat,{ModelAccuracies.HDRS}']
     some_skipped = False
 
     for model, evals in es.items():
@@ -152,7 +166,9 @@ def stat_csv_static_func(evaluations, prefix, extra):
             if not force_write_low_covers:
                 some_skipped = True
                 continue
-        accuracies.append(f'{model},{model_accs}')
+        size = extract_size_from_name(model)
+        chat_type = extract_ischat_from_name(model)
+        accuracies.append(f'{model},{size},{chat_type},{model_accs}')
 
     if some_skipped:
         print('Low coverage values skipped; add extra flag to include them: --extra \'{"FORCE_WRITE_LOW_COVERS": "True"}\'')
