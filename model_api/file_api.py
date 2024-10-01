@@ -19,6 +19,7 @@ class OFFLINE_PARAMS:
                 'gemini-ultra': 'gemini-ultra',
                 'gemini-pro': 'gemini-pro',
                 'gemini-nano': 'gemini-nano',
+                'essential-internal': 'essential-internal',
             }
     SHORT_NAMES = { short: mk_model(model) for short, model in NAMES.items() }
 

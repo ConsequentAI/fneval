@@ -1,0 +1,5 @@
+[
+    { "name": "essential-internal", "extra_params": "{\"write_qs\": true}", "script": "model_api/offline.py", "include": true, "CoT": false },
+    { "name": "essential-internal", "extra_params": "{\"write_qs\": true}", "script": "model_api/offline.py", "include": true, "CoT": true, "few shot": 0 },
+    { "name": "essential-internal", "extra_params": "{\"write_qs\": true}", "script": "model_api/offline.py", "include": true, "CoT": true, "few shot": 5 }
+]
