@@ -1,0 +1,175 @@
+rank,task_key,subject,math_level,empirical_tier,empirical_tier_short,source_file,source_file_note,gpt4_fn_snaps_solved,n_models_functional_any,solvability_0to1,answer_type,n_distinct_answers_3seeds
+1,algebra/24,algebra,1,1,easy,benchmarks/algebra/m24.py,exact,3,6,0.8,int,3
+2,counting_and_probability/0,counting_and_probability,1,1,easy,benchmarks/counting_and_probability/m0.py,exact,3,8,0.8667,fraction,3
+3,counting_and_probability/247,counting_and_probability,1,1,easy,benchmarks/counting_and_probability/m247.py,exact,3,9,0.9,int,2
+4,geometry/484,geometry,1,1,easy,benchmarks/geometry/m484.py,exact,3,10,0.9333,int,3
+5,intermediate_algebra/398,intermediate_algebra,1,1,easy,benchmarks/intermediate_algebra/m398.py,exact,3,5,0.7667,int,3
+6,intermediate_algebra/497,intermediate_algebra,1,1,easy,benchmarks/intermediate_algebra/m497.py,exact,3,10,0.9333,int,2
+7,intermediate_algebra/709,intermediate_algebra,1,1,easy,benchmarks/intermediate_algebra/m709.py,exact,3,4,0.7333,fraction,3
+8,precalculus/31,precalculus,1,1,easy,benchmarks/precalculus/m31.py,exact,3,5,0.7667,int,3
+9,algebra/55,algebra,1,2,moderate,benchmarks/algebra/m55.py,exact,2,2,0.4667,fraction,3
+10,algebra/123,algebra,1,2,moderate,benchmarks/algebra/m123.py,exact,3,2,0.6667,int,3
+11,algebra/440,algebra,1,2,moderate,benchmarks/algebra/m440.py,exact,2,2,0.4667,int,3
+12,counting_and_probability/7,counting_and_probability,1,2,moderate,benchmarks/counting_and_probability/m7.py,exact,2,5,0.5667,int,3
+13,geometry/15,geometry,1,2,moderate,benchmarks/geometry/m15.py,exact,3,3,0.7,int,3
+14,geometry/152,geometry,1,2,moderate,benchmarks/geometry/m152.py,exact,3,3,0.7,fraction,3
+15,number_theory/185,number_theory,1,2,moderate,benchmarks/number_theory/m185.py,exact,3,3,0.7,int,3
+16,counting_and_probability/162,counting_and_probability,1,3,hard,benchmarks/counting_and_probability/m162.py,exact,1,3,0.3,fraction,3
+17,geometry/40,geometry,1,3,hard,benchmarks/geometry/m40.py,exact,0,3,0.1,expression,3
+18,geometry/47,geometry,1,3,hard,benchmarks/geometry/m47.py,exact,0,4,0.1333,int,3
+19,intermediate_algebra/254,intermediate_algebra,1,3,hard,benchmarks/intermediate_algebra/m254.py,exact,0,5,0.1667,expression,3
+20,intermediate_algebra/441,intermediate_algebra,1,3,hard,benchmarks/intermediate_algebra/m441.py,exact,1,5,0.3667,int,2
+21,number_theory/12,number_theory,1,3,hard,benchmarks/number_theory/m12.py,exact,1,7,0.4333,int,3
+22,precalculus/109,precalculus,1,3,hard,benchmarks/precalculus/m109.py,exact,0,7,0.2333,int,3
+23,geometry/310,geometry,1,4,very hard,benchmarks/geometry/m310.py,exact,0,1,0.0333,fraction,2
+24,geometry/855,geometry,1,4,very hard,benchmarks/geometry/m855.py,exact,0,1,0.0333,int,3
+25,intermediate_algebra/611,intermediate_algebra,1,4,very hard,benchmarks/intermediate_algebra/m611.py,exact,0,1,0.0333,int,3
+26,intermediate_algebra/734,intermediate_algebra,1,4,very hard,benchmarks/intermediate_algebra/m734.py,exact,0,1,0.0333,fraction,3
+27,prealgebra/1048,prealgebra,1,4,very hard,benchmarks/prealgebra/m1048.py,exact,0,1,0.0333,fraction,3
+28,precalculus/623,precalculus,1,4,very hard,benchmarks/precalculus/m623.py,exact,0,1,0.0333,fraction,3
+29,algebra/10,algebra,1,5,frontier-hard,benchmarks/algebra/m10.py,exact,0,0,0.0,int,3
+30,geometry/17,geometry,1,5,frontier-hard,benchmarks/geometry/m17.py,exact,0,0,0.0,int,3
+31,intermediate_algebra/194,intermediate_algebra,1,5,frontier-hard,benchmarks/intermediate_algebra/m194.py,exact,0,0,0.0,int,3
+32,number_theory/5,number_theory,1,5,frontier-hard,benchmarks/number_theory/m5.py,exact,0,0,0.0,int,3
+33,prealgebra/211,prealgebra,1,5,frontier-hard,benchmarks/prealgebra/m211.py,exact,0,0,0.0,int,3
+34,prealgebra/946,prealgebra,1,5,frontier-hard,benchmarks/prealgebra/m946.py,exact,0,0,0.0,fraction,3
+35,precalculus/56,precalculus,1,5,frontier-hard,benchmarks/precalculus/m56.py,exact,0,0,0.0,int,3
+36,counting_and_probability/107,counting_and_probability,2,1,easy,benchmarks/counting_and_probability/m107.py,exact,3,8,0.8667,int,3
+37,counting_and_probability/228,counting_and_probability,2,1,easy,benchmarks/counting_and_probability/m228.py,exact,3,8,0.8667,fraction,3
+38,geometry/186,geometry,2,1,easy,benchmarks/geometry/m186.py,exact,3,5,0.7667,expression,3
+39,intermediate_algebra/162,intermediate_algebra,2,1,easy,benchmarks/intermediate_algebra/m162.py,exact,3,9,0.9,int,3
+40,intermediate_algebra/718,intermediate_algebra,2,1,easy,benchmarks/intermediate_algebra/m718.py,exact,3,4,0.7333,tuple/matrix/list,3
+41,number_theory/29,number_theory,2,1,easy,benchmarks/number_theory/m29.py,exact,3,9,0.9,int,3
+42,prealgebra/99,prealgebra,2,1,easy,benchmarks/prealgebra/m99.py,exact,3,5,0.7667,int,3
+43,precalculus/470,precalculus,2,1,easy,benchmarks/precalculus/m470.py,exact,3,6,0.8,int,3
+44,geometry/43,geometry,2,2,moderate,benchmarks/geometry/m43.py,exact,3,1,0.6333,int,2
+45,geometry/109,geometry,2,2,moderate,benchmarks/geometry/m109.py,exact,2,2,0.4667,int,3
+46,intermediate_algebra/27,intermediate_algebra,2,2,moderate,benchmarks/intermediate_algebra/m27.py,exact,2,5,0.5667,int,3
+47,intermediate_algebra/104,intermediate_algebra,2,2,moderate,benchmarks/intermediate_algebra/m104.py,exact,3,2,0.6667,int,3
+48,number_theory/84,number_theory,2,2,moderate,benchmarks/number_theory/m84.py,exact,2,6,0.6,int,3
+49,number_theory/100,number_theory,2,2,moderate,benchmarks/number_theory/m100.py,exact,3,3,0.7,int,3
+50,precalculus/78,precalculus,2,2,moderate,benchmarks/precalculus/m78.py,exact,2,5,0.5667,expression,3
+51,algebra/22,algebra,2,3,hard,benchmarks/algebra/m22.py,exact,1,1,0.2333,int,3
+52,counting_and_probability/74,counting_and_probability,2,3,hard,benchmarks/counting_and_probability/m74.py,exact,1,2,0.2667,fraction,3
+53,geometry/248,geometry,2,3,hard,benchmarks/geometry/m248.py,exact,1,1,0.2333,int,3
+54,number_theory/59,number_theory,2,3,hard,benchmarks/number_theory/m59.py,exact,1,7,0.4333,int,3
+55,prealgebra/92,prealgebra,2,3,hard,benchmarks/prealgebra/m92.py,exact,1,6,0.4,int,3
+56,precalculus/23,precalculus,2,3,hard,benchmarks/precalculus/m23.py,exact,1,1,0.2333,fraction,2
+57,precalculus/282,precalculus,2,3,hard,benchmarks/precalculus/m282.py,exact,1,3,0.3,fraction,3
+58,algebra/59,algebra,2,4,very hard,benchmarks/algebra/m59.py,exact,0,1,0.0333,int,2
+59,algebra/196,algebra,2,4,very hard,benchmarks/algebra/m196.py,exact,0,1,0.0333,int,3
+60,counting_and_probability/47,counting_and_probability,2,4,very hard,benchmarks/counting_and_probability/m47.py,exact,0,1,0.0333,int,3
+61,geometry/135,geometry,2,4,very hard,benchmarks/geometry/m135_x10.py,scaled-variant,0,1,0.0333,expression,2
+62,intermediate_algebra/131,intermediate_algebra,2,4,very hard,benchmarks/intermediate_algebra/m131.py,exact,0,1,0.0333,int,3
+63,prealgebra/458,prealgebra,2,4,very hard,benchmarks/prealgebra/m458.py,exact,0,1,0.0333,int,2
+64,precalculus/555,precalculus,2,4,very hard,benchmarks/precalculus/m555.py,exact,0,1,0.0333,tuple/matrix/list,3
+65,precalculus/1093,precalculus,2,4,very hard,benchmarks/precalculus/m1093.py,exact,0,1,0.0333,tuple/matrix/list,3
+66,geometry/0,geometry,2,5,frontier-hard,benchmarks/geometry/m0_x20.py,scaled-variant,0,0,0.0,fraction,3
+67,geometry/10,geometry,2,5,frontier-hard,benchmarks/geometry/m10_x20.py,scaled-variant,0,0,0.0,fraction,3
+68,geometry/29,geometry,2,5,frontier-hard,benchmarks/geometry/m29.py,exact,0,0,0.0,int,3
+69,intermediate_algebra/74,intermediate_algebra,2,5,frontier-hard,benchmarks/intermediate_algebra/m74.py,exact,0,0,0.0,fraction,3
+70,intermediate_algebra/157,intermediate_algebra,2,5,frontier-hard,benchmarks/intermediate_algebra/m157.py,exact,0,0,0.0,int,3
+71,prealgebra/339,prealgebra,2,5,frontier-hard,benchmarks/prealgebra/m339.py,exact,0,0,0.0,int,3
+72,precalculus/34,precalculus,2,5,frontier-hard,benchmarks/precalculus/m34.py,exact,0,0,0.0,int,3
+73,algebra/113,algebra,3,1,easy,benchmarks/algebra/m113.py,exact,3,5,0.7667,int,3
+74,counting_and_probability/64,counting_and_probability,3,1,easy,benchmarks/counting_and_probability/m64.py,exact,3,9,0.9,int,3
+75,geometry/371,geometry,3,1,easy,benchmarks/geometry/m371.py,exact,3,4,0.7333,expression,3
+76,geometry/581,geometry,3,1,easy,benchmarks/geometry/m581.py,exact,3,4,0.7333,expression,3
+77,geometry/738,geometry,3,1,easy,benchmarks/geometry/m738.py,exact,3,5,0.7667,int,3
+78,number_theory/585,number_theory,3,1,easy,benchmarks/number_theory/m585.py,exact,3,7,0.8333,int,2
+79,number_theory/805,number_theory,3,1,easy,benchmarks/number_theory/m805.py,exact,3,4,0.7333,int,2
+80,algebra/40,algebra,3,2,moderate,benchmarks/algebra/m40.py,exact,3,2,0.6667,fraction,3
+81,counting_and_probability/6,counting_and_probability,3,2,moderate,benchmarks/counting_and_probability/m6.py,exact,2,1,0.4333,int,3
+82,counting_and_probability/71,counting_and_probability,3,2,moderate,benchmarks/counting_and_probability/m71_x05.py,scaled-variant,2,2,0.4667,int,3
+83,intermediate_algebra/105,intermediate_algebra,3,2,moderate,benchmarks/intermediate_algebra/m105.py,exact,3,1,0.6333,tuple/matrix/list,3
+84,number_theory/3,number_theory,3,2,moderate,benchmarks/number_theory/m3.py,exact,2,5,0.5667,int,2
+85,prealgebra/45,prealgebra,3,2,moderate,benchmarks/prealgebra/m45.py,exact,2,2,0.4667,int,1
+86,precalculus/98,precalculus,3,2,moderate,benchmarks/precalculus/m98.py,exact,3,2,0.6667,int,3
+87,precalculus/215,precalculus,3,2,moderate,benchmarks/precalculus/m215.py,exact,3,2,0.6667,int,3
+88,counting_and_probability/61,counting_and_probability,3,3,hard,benchmarks/counting_and_probability/m61.py,exact,0,4,0.1333,fraction,3
+89,counting_and_probability/65,counting_and_probability,3,3,hard,benchmarks/counting_and_probability/m65.py,exact,0,4,0.1333,int,3
+90,geometry/41,geometry,3,3,hard,benchmarks/geometry/m41.py,exact,1,1,0.2333,int,3
+91,intermediate_algebra/93,intermediate_algebra,3,3,hard,benchmarks/intermediate_algebra/m93.py,exact,1,1,0.2333,int,3
+92,intermediate_algebra/421,intermediate_algebra,3,3,hard,benchmarks/intermediate_algebra/m421.py,exact,1,1,0.2333,expression,2
+93,number_theory/32,number_theory,3,3,hard,benchmarks/number_theory/m32.py,exact,1,2,0.2667,int,3
+94,prealgebra/390,prealgebra,3,3,hard,benchmarks/prealgebra/m390.py,exact,0,2,0.0667,int,3
+95,precalculus/266,precalculus,3,3,hard,benchmarks/precalculus/m266.py,exact,1,1,0.2333,expression,3
+96,algebra/148,algebra,3,4,very hard,benchmarks/algebra/m148.py,exact,0,1,0.0333,int,3
+97,algebra/323,algebra,3,4,very hard,benchmarks/algebra/m323.py,exact,0,1,0.0333,int,3
+98,counting_and_probability/418,counting_and_probability,3,4,very hard,benchmarks/counting_and_probability/m418.py,exact,0,1,0.0333,int,3
+99,geometry/347,geometry,3,4,very hard,benchmarks/geometry/m347.py,exact,0,1,0.0333,expression,2
+100,number_theory/33,number_theory,3,4,very hard,benchmarks/number_theory/m33.py,exact,0,1,0.0333,int,3
+101,number_theory/247,number_theory,3,4,very hard,benchmarks/number_theory/m247.py,exact,0,1,0.0333,int,3
+102,precalculus/577,precalculus,3,4,very hard,benchmarks/precalculus/m577.py,exact,0,1,0.0333,expression,3
+103,counting_and_probability/56,counting_and_probability,3,5,frontier-hard,benchmarks/counting_and_probability/m56.py,exact,0,0,0.0,tuple/matrix/list,3
+104,counting_and_probability/95,counting_and_probability,3,5,frontier-hard,benchmarks/counting_and_probability/m95.py,exact,0,0,0.0,fraction,3
+105,intermediate_algebra/6,intermediate_algebra,3,5,frontier-hard,benchmarks/intermediate_algebra/m6.py,exact,0,0,0.0,int,3
+106,intermediate_algebra/50,intermediate_algebra,3,5,frontier-hard,benchmarks/intermediate_algebra/m50.py,exact,0,0,0.0,fraction,3
+107,number_theory/24,number_theory,3,5,frontier-hard,benchmarks/number_theory/m24.py,exact,0,0,0.0,int,2
+108,prealgebra/55,prealgebra,3,5,frontier-hard,benchmarks/prealgebra/m55.py,exact,0,0,0.0,int,3
+109,precalculus/5,precalculus,3,5,frontier-hard,benchmarks/precalculus/m5.py,exact,0,0,0.0,fraction,3
+110,algebra/178,algebra,4,1,easy,benchmarks/algebra/m178.py,exact,3,10,0.9333,int,3
+111,algebra/187,algebra,4,1,easy,benchmarks/algebra/m187.py,exact,3,6,0.8,int,3
+112,number_theory/496,number_theory,4,1,easy,benchmarks/number_theory/m496.py,exact,3,4,0.7333,int,2
+113,number_theory/1111,number_theory,4,1,easy,benchmarks/number_theory/m1111.py,exact,3,6,0.8,int,3
+114,prealgebra/942,prealgebra,4,1,easy,benchmarks/prealgebra/m942.py,exact,3,5,0.7667,int,3
+115,prealgebra/1580,prealgebra,4,1,easy,benchmarks/prealgebra/m1580.py,exact,3,5,0.7667,int,3
+116,algebra/185,algebra,4,2,moderate,benchmarks/algebra/m185.py,exact,2,2,0.4667,int,3
+117,counting_and_probability/339,counting_and_probability,4,2,moderate,benchmarks/counting_and_probability/m339.py,exact,2,7,0.6333,int,2
+118,counting_and_probability/803,counting_and_probability,4,2,moderate,benchmarks/counting_and_probability/m803.py,exact,2,2,0.4667,fraction,3
+119,geometry/781,geometry,4,2,moderate,benchmarks/geometry/m781.py,exact,2,1,0.4333,tuple/matrix/list,3
+120,intermediate_algebra/2,intermediate_algebra,4,2,moderate,benchmarks/intermediate_algebra/m2.py,exact,2,5,0.5667,int,3
+121,precalculus/110,precalculus,4,2,moderate,benchmarks/precalculus/m110.py,exact,3,1,0.6333,int,3
+122,precalculus/469,precalculus,4,2,moderate,benchmarks/precalculus/m469.py,exact,3,2,0.6667,fraction,3
+123,algebra/156,algebra,4,3,hard,benchmarks/algebra/m156.py,exact,0,2,0.0667,int,3
+124,algebra/183,algebra,4,3,hard,benchmarks/algebra/m183_x10.py,scaled-variant,0,3,0.1,int,3
+125,algebra/209,algebra,4,3,hard,benchmarks/algebra/m209.py,exact,0,2,0.0667,int,2
+126,geometry/359,geometry,4,3,hard,benchmarks/geometry/m359.py,exact,1,4,0.3333,int,3
+127,number_theory/2,number_theory,4,3,hard,benchmarks/number_theory/m2.py,exact,1,5,0.3667,int,3
+128,prealgebra/93,prealgebra,4,3,hard,benchmarks/prealgebra/m93.py,exact,1,1,0.2333,int,3
+129,prealgebra/394,prealgebra,4,3,hard,benchmarks/prealgebra/m394.py,exact,1,1,0.2333,int,2
+130,counting_and_probability/10,counting_and_probability,4,4,very hard,benchmarks/counting_and_probability/m10.py,exact,0,1,0.0333,int,3
+131,counting_and_probability/313,counting_and_probability,4,4,very hard,benchmarks/counting_and_probability/m313.py,exact,0,1,0.0333,int,3
+132,geometry/417,geometry,4,4,very hard,benchmarks/geometry/m417.py,exact,0,1,0.0333,int,3
+133,intermediate_algebra/102,intermediate_algebra,4,4,very hard,benchmarks/intermediate_algebra/m102.py,exact,0,1,0.0333,int,3
+134,prealgebra/69,prealgebra,4,4,very hard,benchmarks/prealgebra/m69.py,exact,0,1,0.0333,fraction,3
+135,prealgebra/840,prealgebra,4,4,very hard,benchmarks/prealgebra/m840.py,exact,0,1,0.0333,int,3
+136,precalculus/182,precalculus,4,4,very hard,benchmarks/precalculus/m182.py,exact,0,1,0.0333,int,3
+137,algebra/31,algebra,4,5,frontier-hard,benchmarks/algebra/m31.py,exact,0,0,0.0,int,3
+138,algebra/132,algebra,4,5,frontier-hard,benchmarks/algebra/m132.py,exact,0,0,0.0,fraction,3
+139,algebra/246,algebra,4,5,frontier-hard,benchmarks/algebra/m246.py,exact,0,0,0.0,int,3
+140,counting_and_probability/128,counting_and_probability,4,5,frontier-hard,benchmarks/counting_and_probability/m128.py,exact,0,0,0.0,expression,2
+141,number_theory/30,number_theory,4,5,frontier-hard,benchmarks/number_theory/m30.py,exact,0,0,0.0,int,3
+142,prealgebra/447,prealgebra,4,5,frontier-hard,benchmarks/prealgebra/m447.py,exact,0,0,0.0,expression,3
+143,precalculus/307,precalculus,4,5,frontier-hard,benchmarks/precalculus/m307.py,exact,0,0,0.0,int,2
+144,algebra/188,algebra,5,1,easy,benchmarks/algebra/m188.py,exact,3,7,0.8333,int,3
+145,algebra/938,algebra,5,1,easy,benchmarks/algebra/m938.py,exact,3,5,0.7667,int,3
+146,prealgebra/1564,prealgebra,5,1,easy,benchmarks/prealgebra/m1564.py,exact,3,6,0.8,int,3
+147,prealgebra/1873,prealgebra,5,1,easy,benchmarks/prealgebra/m1873.py,exact,3,7,0.8333,int,3
+148,prealgebra/1899,prealgebra,5,1,easy,benchmarks/prealgebra/m1899.py,exact,3,4,0.7333,expression,3
+149,intermediate_algebra/911,intermediate_algebra,5,2,moderate,benchmarks/intermediate_algebra/m911.py,exact,3,1,0.6333,fraction,3
+150,number_theory/895,number_theory,5,2,moderate,benchmarks/number_theory/m895.py,exact,2,2,0.4667,int,3
+151,prealgebra/393,prealgebra,5,2,moderate,benchmarks/prealgebra/m393.py,exact,3,2,0.6667,expression,3
+152,prealgebra/438,prealgebra,5,2,moderate,benchmarks/prealgebra/m438.py,exact,2,4,0.5333,expression,2
+153,prealgebra/1107,prealgebra,5,2,moderate,benchmarks/prealgebra/m1107.py,exact,2,1,0.4333,int,2
+154,prealgebra/1210,prealgebra,5,2,moderate,benchmarks/prealgebra/m1210.py,exact,2,1,0.4333,expression,3
+155,algebra/892,algebra,5,3,hard,benchmarks/algebra/m892.py,exact,0,2,0.0667,int,2
+156,counting_and_probability/483,counting_and_probability,5,3,hard,benchmarks/counting_and_probability/m483.py,exact,0,3,0.1,fraction,3
+157,intermediate_algebra/803,intermediate_algebra,5,3,hard,benchmarks/intermediate_algebra/m803.py,exact,0,2,0.0667,int,3
+158,number_theory/187,number_theory,5,3,hard,benchmarks/number_theory/m187.py,exact,0,3,0.1,int,3
+159,prealgebra/849,prealgebra,5,3,hard,benchmarks/prealgebra/m849.py,exact,0,2,0.0667,int,3
+160,precalculus/980,precalculus,5,3,hard,benchmarks/precalculus/m980.py,exact,1,1,0.2333,tuple/matrix/list,3
+161,algebra/289,algebra,5,4,very hard,benchmarks/algebra/m289.py,exact,0,1,0.0333,int,3
+162,counting_and_probability/650,counting_and_probability,5,4,very hard,benchmarks/counting_and_probability/m650_x10.py,scaled-variant,0,1,0.0333,int,3
+163,intermediate_algebra/1757,intermediate_algebra,5,4,very hard,benchmarks/intermediate_algebra/m1757.py,exact,0,1,0.0333,int,3
+164,number_theory/211,number_theory,5,4,very hard,benchmarks/number_theory/m211.py,exact,0,1,0.0333,int,3
+165,number_theory/374,number_theory,5,4,very hard,benchmarks/number_theory/m374_x05.py,scaled-variant,0,1,0.0333,int,3
+166,number_theory/451,number_theory,5,4,very hard,benchmarks/number_theory/m451.py,exact,0,1,0.0333,int,3
+167,prealgebra/1176,prealgebra,5,4,very hard,benchmarks/prealgebra/m1176.py,exact,0,1,0.0333,int,3
+168,algebra/26,algebra,5,5,frontier-hard,benchmarks/algebra/m26.py,exact,0,0,0.0,int,3
+169,counting_and_probability/78,counting_and_probability,5,5,frontier-hard,benchmarks/counting_and_probability/m78.py,exact,0,0,0.0,int,3
+170,counting_and_probability/123,counting_and_probability,5,5,frontier-hard,benchmarks/counting_and_probability/m123.py,exact,0,0,0.0,int,3
+171,geometry/115,geometry,5,5,frontier-hard,benchmarks/geometry/m115.py,exact,0,0,0.0,int,3
+172,number_theory/86,number_theory,5,5,frontier-hard,benchmarks/number_theory/m86.py,exact,0,0,0.0,int,3
+173,number_theory/126,number_theory,5,5,frontier-hard,benchmarks/number_theory/m126.py,exact,0,0,0.0,int,3
+174,precalculus/170,precalculus,5,5,frontier-hard,benchmarks/precalculus/m170.py,exact,0,0,0.0,expression,3
